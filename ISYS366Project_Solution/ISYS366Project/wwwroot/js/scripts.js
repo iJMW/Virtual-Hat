@@ -6,3 +6,16 @@
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
 
+function getWeather() {
+    fetch('weatherforecast/GetWeatherForecast')
+        .then(response => response.json())
+        .then(data => printToConsole(data))
+        .catch(error => console.error('Unable to get items', error));
+}
+
+function printToConsole(data) {
+    data.forEach(item => {
+        console.log(item.date);
+    });
+}
+

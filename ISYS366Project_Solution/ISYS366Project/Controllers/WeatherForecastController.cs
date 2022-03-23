@@ -18,7 +18,7 @@ namespace ISYS366Project.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet("GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -28,6 +28,27 @@ namespace ISYS366Project.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("Blah")]
+        public IEnumerable<WeatherForecast> GetBlah()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now,
+                TemperatureC = 0,
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+
+        [HttpGet("Person")]
+        public IEnumerable<Class> GetPerson()
+        {
+            return Enumerable.Range(1, 5).Select(index => new Class
+            {
+                Name = "Jalen"
+            });
         }
     }
 }
