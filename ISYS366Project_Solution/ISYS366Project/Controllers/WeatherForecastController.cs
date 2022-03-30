@@ -9,7 +9,7 @@ namespace ISYS366Project.Controllers
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -42,13 +42,6 @@ namespace ISYS366Project.Controllers
             .ToArray();
         }
 
-        [HttpGet("Person")]
-        public IEnumerable<Class> GetPerson()
-        {
-            return Enumerable.Range(1, 5).Select(index => new Class
-            {
-                Name = "Jalen"
-            });
-        }
+
     }
 }
