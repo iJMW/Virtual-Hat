@@ -21,41 +21,44 @@ namespace ISYS366Project.Controllers
         //Get a specific user to verify credentials
         [HttpPost]
         [Route("GetUser")]
-        public User GetUser([FromBody]string requestedUsername)
+        public User GetUser([FromBody]User user)
         {
             //Open the database connection
             connection.Open();
             //Create a new MySQL command
             MySqlCommand command = connection.CreateCommand();
             //Add the parameters to the command
-            command.Parameters.AddWithValue("@username", requestedUsername);
-            System.Diagnostics.Debug.Write(requestedUsername);
+            command.Parameters.AddWithValue("@username", user.Username);
+            command.Parameters.AddWithValue("@password", user.User_Password);
             //The query/action to be performed
             command.CommandText = @"SELECT *
                                     FROM USERS
-                                    WHERE USERNAME = @username;";
+                                    WHERE USERNAME = @username AND USER_PASSWORD = @password;";
             
             //Create a reader to execute the query
             var reader = command.ExecuteReader();
             //Initialize a new user to be returned
-            User user = new User();
+            User returnedUser = new User();
             //Iterate over the returned result set
             while (reader.Read()){
                 //Username is first
-                user.Username = reader.GetString(0);
+                returnedUser.Username = reader.GetString(0);
                 //Password is second
-                user.User_Password = reader.GetString(1);
+                returnedUser.User_Password = reader.GetString(1);
                 //Email is third
-                user.Email = reader.GetString(2);
+                returnedUser.Email = reader.GetString(2);
                 //First Name is fourth
-                user.First_Name = reader.GetString(3);
+                returnedUser.First_Name = reader.GetString(3);
                 //Last Name is fifth
-                user.Last_Name = reader.GetString(4);
+                returnedUser.Last_Name = reader.GetString(4);
+
+                return returnedUser;
             }
+
             //Close the connection
             connection.Close();
             //Return the user
-            return user;
+            return null;
         }
 
         // Adds a user to the Users table

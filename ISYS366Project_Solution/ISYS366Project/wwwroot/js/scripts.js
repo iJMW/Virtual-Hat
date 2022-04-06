@@ -29,37 +29,40 @@ function printToConsole(data) {
     });
 }
 
-function GetUser(){
+function GetUser() {
+    console.log("Inside GetUser");
+
+    let user = new User(document.getElementById("loginUsername").value, document.getElementById("loginPassword").value, "", "", "");
+
     fetch('UserManagement/GetUser', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(document.getElementById("loginUsername").value),
+        body: JSON.stringify(user),
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error: ', error));
-
-    // fetch('UserManagement/GetUser')
-    // .then(response => response.json())
-    // .then(data => console.log(data))
-    // .catch(error => console.error('Unable to get user', error));
+    .then(response => {
+        if (response.status === 200) {
+            response.json().then(data => {
+                let verifiedUser = data;
+                console.log(JSON.stringify(verifiedUser));
+            });
+            window.location.href = "../homepage.html";
+        } else {
+            alert("Incorrect Credentials");
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
 }
 
-// Inserts a new user into the "Users" table
-// Function called from hitting "Continue" button on create user page
 function AddUser() {
-    // Get the attribute for the user from the login (index.html) page
-    var fname = document.getElementById("signupFirstName").value;
-    var lname = document.getElementById("signupLastName").value;
-    var username = document.getElementById("signupUsername").value;
-    var password = document.getElementById("signupPassword").value;
-    var email = document.getElementById("signupEmail").value;
-    // Create a new user with the specified attributes
-    const user = new User(username, password, email, fname, lname);
-    // Call the AddUser function in UserManagementController
+
+    let user = new User(document.getElementById("signupUsername").value, document.getElementById("signupPassword").value, document.getElementById("signupEmail").value, document.getElementById("signupFirstName").value, document.getElementById("signupLastName").value);
+            
+   // Call the AddUser function in UserManagementController
     fetch('UserManagement/AddUser', {
         method: 'POST',
         headers: {
@@ -69,6 +72,7 @@ function AddUser() {
         body: JSON.stringify(user),
     })
     .catch(error => console.error('Error: ', error));
+
 }
 
 function setFormMessage(formElement, type, message) {
