@@ -29,6 +29,73 @@ class Merchandise {
     }
 }
 
+//#region Merchandise Management Functions
+var merchandiseList = [];
+function GetAllMerchandise() {
+    fetch('Merchandise/GetAllMerchandise')
+        .then(response => {
+            response.json().then(data => {
+                data.forEach(merchandise => {
+                    console.log("inside data.foreach: " + JSON.stringify(data));
+                    console.log("Merchandise Id: " + data.merchandise_Id);
+                    merchandiseList.push(new Merchandise(data.merchandise_Id, data.merchandise_Name, data.price, data.date_Added, data.brand, data.display_Active));
+                    console.log("after pushing to merchandise list: " + merchandiseList[0].Merchandise_Id);
+                });
+            }).then(() => {
+                PopulateMerchandiseManagementTable();
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+function PopulateMerchandiseManagementTable() {
+    //Get the table for populating
+    let table = document.getElementById("merchandiseTable");
+    merchandiseList.forEach(merchandiseItem => {
+        //Create the row
+        let newRow = document.createElement("tr");
+        //Add the classes
+        newRow.classList.add("bg-light", "text-black");
+
+        //Create the name column
+        let merchandiseName = document.createElement("td");
+        merchandiseName.innerText = merchandiseItem.Merchandise_Name;
+
+        //Append it
+        newRow.appendChild(merchandiseName);
+
+        //Create the price column
+        let price = document.createElement("td");
+        price.innerText = merchandiseItem.Price;
+        //Append it
+        newRow.appendChild(price);
+
+        //Create the date column
+        let dateAdded = document.createElement("td");
+        dateAdded.innerText = merchandiseItem.Date_Added;
+        //Append it
+        newRow.appendChild(dateAdded);
+
+        //Create the brand column
+        let brand = document.createElement("td");
+        brand.innerText = merchandiseItem.Brand;
+        //Append it
+        newRow.appendChild(brand);
+
+        //Create the active column
+        let active = document.createElement("td");
+        active.innerText = merchandiseItem.Display_Active;
+        //Append it
+        newRow.appendChild(active);
+
+        //Append the row to the table
+        table.appendChild(newRow);
+    });
+}
+//#endregion Merchandise Management Functions
+
 function getWeather() {
     fetch('weatherforecast/GetWeatherForecast')
         .then(response => response.json())

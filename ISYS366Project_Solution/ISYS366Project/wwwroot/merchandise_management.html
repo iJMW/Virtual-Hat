@@ -12,9 +12,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
+    <!-- Custom CSS Styling for Merchandise Page -->
+    <link href="css/merchandise.css" rel="stylesheet" />
     <script src="js/scripts.js"></script>
 </head>
-<body>
+<body onload="GetAllMerchandise()">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
@@ -49,10 +51,22 @@
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Shop in style</h1>
-                <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                <h1 class="display-4 fw-bolder">Merchandise Management</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Add, Update, and Remove All Merchandise</p>
             </div>
         </div>
     </header>
+    <br />
+    <section>
+        <table id="merchandiseTable" class="bg-dark text-white">
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Date Added</th>
+                <th>Brand</th>
+                <th>Active</th>
+            </tr>
+        </table>
+    </section>
 </body>
 </html>
