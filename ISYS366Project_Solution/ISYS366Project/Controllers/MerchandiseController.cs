@@ -31,8 +31,7 @@ namespace ISYS366Project.Controllers
             MySqlCommand command = connection.CreateCommand();
             //Select all items in the table that are active
             command.CommandText = @"SELECT *
-                                    FROM MERCHANDISE merch
-                                    WHERE lower(merch.DISPLAY_ACTIVE) = 'y'";
+                                    FROM MERCHANDISE merch";
 
             //Create a reader
             MySqlDataReader reader = command.ExecuteReader();

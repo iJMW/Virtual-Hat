@@ -29,23 +29,23 @@ class Merchandise {
     }
 }
 
-//#region Merchandise Management Functions
+//#region Merchandise Management Screen Functions
 var merchandiseList = [];
 function GetAllMerchandise() {
     fetch('Merchandise/GetAllMerchandise')
         .then(response => {
             response.json().then(data => {
                 data.forEach(item => {
-                    console.log("inside data.foreach: " + JSON.stringify(item));
-                    console.log("Merchandise Id: " + item.merchandise_Id);
+                    //Add a merchanise object using the item's data
                     merchandiseList.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
-                    console.log("after pushing to merchandise list: " + merchandiseList[0].Merchandise_Id);
                 });
             }).then(() => {
+                //Populate the merchandise management table
                 PopulateMerchandiseManagementTable();
             });
         })
         .catch(error => {
+            //Display the error to the console
             console.log(error);
         });
 }
@@ -118,7 +118,7 @@ function PopulateMerchandiseManagementTable() {
         table.appendChild(newRow);
     });
 }
-//#endregion Merchandise Management Functions
+//#endregion Merchandise Management Screen Functions
 
 function getWeather() {
     fetch('weatherforecast/GetWeatherForecast')
