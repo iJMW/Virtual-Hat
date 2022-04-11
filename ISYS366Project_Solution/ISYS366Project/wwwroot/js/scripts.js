@@ -68,7 +68,7 @@ function PopulateMerchandiseManagementTable() {
 
         //Create the price column
         let price = document.createElement("td");
-        price.innerText = merchandiseItem.Price;
+        price.innerText = "$" + merchandiseItem.Price;
         //Append it
         newRow.appendChild(price);
 
@@ -89,6 +89,30 @@ function PopulateMerchandiseManagementTable() {
         active.innerText = merchandiseItem.Display_Active;
         //Append it
         newRow.appendChild(active);
+
+        //Add a edit button column
+        let editButton = document.createElement("button");
+        editButton.innerText = "Edit";
+        editButton.className = "button-green";
+        editButton.addEventListener("click", ()  => {
+            //Set modal form to be viewable
+
+            //Populate modal form with merchandiseItem data
+            
+        });
+        //Append the button to the row
+        newRow.appendChild(editButton);
+        
+        //Add delete button column
+        let deleteButton = document.createElement("button");
+        deleteButton.innerText = "Delete";
+        deleteButton.className = "button-red";
+        deleteButton.addEventListener("click", () => {
+            //Set active to 'n' for merchandiseItem using fetch POST
+            
+        });
+        //Append the button to the row
+        newRow.appendChild(deleteButton);
 
         //Append the row to the table
         table.appendChild(newRow);

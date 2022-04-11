@@ -5,3 +5,17 @@
 th, tr{
     text-align: center;
 }
+
+button{
+    margin: 5px;
+    border-radius: 10px;
+    min-width: 100px;
+}
+
+.button-green{
+    background-color: rgb(78, 220, 43);
+}
+
+.button-red{
+    background-color: rgb(206, 43, 43);
+}
