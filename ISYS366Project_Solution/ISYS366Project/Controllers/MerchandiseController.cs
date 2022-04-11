@@ -49,7 +49,7 @@ namespace ISYS366Project.Controllers
                 //Get the price of the item
                 item.Price = float.Parse(reader.GetString(2));
                 //Get the date added of the item
-                item.Date_Added = DateTime.Parse(reader.GetString(3));
+                item.Date_Added = DateTime.Parse(reader.GetString(3)).ToShortDateString();
                 //Get the brand of the item
                 item.Brand = reader.GetString(4);
                 //Get the active status of the item
@@ -95,7 +95,7 @@ namespace ISYS366Project.Controllers
                 //Email is third
                 returnedMerchandise.Price = float.Parse(reader.GetString(2));
                 //First Name is fourth
-                returnedMerchandise.Date_Added = DateTime.Parse(reader.GetString(3));
+                returnedMerchandise.Date_Added = DateTime.Parse(reader.GetString(3)).ToShortDateString();
                 //Last Name is fifth
                 returnedMerchandise.Brand = reader.GetString(4);
                 //Last Name is fifth

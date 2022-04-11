@@ -35,10 +35,10 @@ function GetAllMerchandise() {
     fetch('Merchandise/GetAllMerchandise')
         .then(response => {
             response.json().then(data => {
-                data.forEach(merchandise => {
-                    console.log("inside data.foreach: " + JSON.stringify(data));
-                    console.log("Merchandise Id: " + data.merchandise_Id);
-                    merchandiseList.push(new Merchandise(data.merchandise_Id, data.merchandise_Name, data.price, data.date_Added, data.brand, data.display_Active));
+                data.forEach(item => {
+                    console.log("inside data.foreach: " + JSON.stringify(item));
+                    console.log("Merchandise Id: " + item.merchandise_Id);
+                    merchandiseList.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
                     console.log("after pushing to merchandise list: " + merchandiseList[0].Merchandise_Id);
                 });
             }).then(() => {

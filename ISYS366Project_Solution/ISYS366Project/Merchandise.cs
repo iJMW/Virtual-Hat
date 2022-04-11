@@ -9,7 +9,7 @@
 
         public float Price { get; set; }
 
-        public DateTime Date_Added { get; set; }
+        public string Date_Added { get; set; }
 
         public string Brand { get; set; }
 
