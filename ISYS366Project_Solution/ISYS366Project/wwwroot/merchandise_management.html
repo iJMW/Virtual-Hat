@@ -73,9 +73,18 @@
                 <input type="text" id="merchandiseBrand" />
                 <br />
                 <label for="activeInd">Active: </label>
-                <input id="activeInd" type="checkbox" checked/>
+                <input id="activeInd" type="checkbox" checked disabled/>
                 <br />
                 <button type="button" id="saveEditButton" class="bg-primary text-white" onclick="saveEdit()">Save</button>
+            </form>
+        </div>
+    </div>
+    <!-- Delete Modal -->
+    <div id="deleteMerchandiseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeIndicatorDelete">&times;</span>
+            <form>
+                <button type="button" id="deleteButton" class="bg-primary text-white" onclick="deactivateMerchandise()">Deactivate</button>
             </form>
         </div>
     </div>

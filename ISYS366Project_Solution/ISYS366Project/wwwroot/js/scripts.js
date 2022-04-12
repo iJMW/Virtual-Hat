@@ -124,11 +124,13 @@ function PopulateMerchandiseManagementTable() {
         
         //Add delete button column
         let deleteButton = document.createElement("button");
-        deleteButton.innerText = "Delete";
+        deleteButton.innerText = "Deactivate";
         deleteButton.className = "button-red";
         deleteButton.addEventListener("click", () => {
-            //Set active to 'n' for merchandiseItem using fetch POST
-            
+            currentMerchandise = merchandiseItem;
+
+            //Set modal form to be viewable
+            deleteModal.style.display = "block";
         });
         //Append the button to the row
         newRow.appendChild(deleteButton);
@@ -138,9 +140,24 @@ function PopulateMerchandiseManagementTable() {
     });
 }
 
-//Saves the details of the current selected merchandise item
+//Saves the details edited in the dialog box and using the current merchandise
 function saveEdit() {
+    //Copy contents of currentMerchandise into new variable to save those values (if there is an error, we don't want those to be displayed)
+    //Or can we just use the current merchandise since the values reset anyways?????
+
+    //Set the values of the copied/current merchandise to the values in the modal boxes
+
+    //Perform the POST using the currentMerchandise
+
+    //Close the modal after a success or error message
+
+
     alert(currentMerchandise.toString());
+}
+
+//Sets the merchandiseItem to 'n'
+function deactivateMerchandise() {
+
 }
 
 //#endregion Merchandise Management Screen Functions
