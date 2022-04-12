@@ -20,6 +20,17 @@ button{
     background-color: rgb(206, 43, 43);
 }
 
+label, input[type="text"] {
+    width: 25%;
+    margin: 10px;
+    display: inline-block;
+}
+
+label {
+    text-align: right;
+}
+
+
 /* Copied from w3schools https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal */
 .modal {
     display: none; /* Hidden by default */
@@ -57,14 +68,3 @@ button{
     text-decoration: none;
     cursor: pointer;
 }
-
-label, input[type="text"]{
-    width: 25%;
-    margin: 10px;
-    display: inline-block;
-}
-
-label{
-    text-align: right;
-}
-
