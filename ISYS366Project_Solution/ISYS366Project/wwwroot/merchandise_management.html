@@ -14,7 +14,6 @@
     <link href="css/styles.css" rel="stylesheet" />
     <!-- Custom CSS Styling for Merchandise Page -->
     <link href="css/merchandise.css" rel="stylesheet" />
-    <script src="js/scripts.js"></script>
 </head>
 <body onload="GetAllMerchandise()">
     <!-- Navigation-->
@@ -47,16 +46,7 @@
             </div>
         </div>
     </nav>
-    <!-- Header-->
-    <header class="bg-dark py-5">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Merchandise Management</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Add, Update, and Remove All Merchandise</p>
-            </div>
-        </div>
-    </header>
-    <br />
+    <!-- Merchandise table -->
     <section>
         <table id="merchandiseTable" class="bg-dark text-white">
             <tr>
@@ -68,5 +58,28 @@
             </tr>
         </table>
     </section>
+    <!-- Edit Merchandise Modal -->
+    <div id="editMerchandiseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeIndicator">&times;</span>
+            <form>
+                <label for="merchandiseName">Name: </label>
+                <input type="text" id="merchandiseName" />
+                <br />
+                <label for="merchandisePrice">Price: </label>
+                <input type="text" id="merchandisePrice" />
+                <br />
+                <label for="merchandiseBrand">Brand: </label>
+                <input type="text" id="merchandiseBrand" />
+                <br />
+                <label for="activeInd">Active: </label>
+                <input id="activeInd" type="checkbox" checked/>
+                <br />
+                <button type="button" id="saveEditButton" class="bg-primary text-white" onclick="saveEdit()">Save</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/merchandise.js"></script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>

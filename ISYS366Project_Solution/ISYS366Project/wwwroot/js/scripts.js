@@ -27,6 +27,11 @@ class Merchandise {
         this.Brand = brand;
         this.Display_Active = displayActive;
     }
+
+    toString() {
+        return "Id: " + this.Merchandise_Id + "\n Name: " + this.Merchandise_Name
+            + "\n Price: " + this.Price + "\n Brand: " + this.Brand + "\n Date: " + this.Date_Added;
+    }
 }
 
 //#region Merchandise Management Screen Functions
@@ -50,6 +55,7 @@ function GetAllMerchandise() {
         });
 }
 
+var currentMerchandise;
 function PopulateMerchandiseManagementTable() {
     //Get the table for populating
     let table = document.getElementById("merchandiseTable");
@@ -94,11 +100,24 @@ function PopulateMerchandiseManagementTable() {
         let editButton = document.createElement("button");
         editButton.innerText = "Edit";
         editButton.className = "button-green";
-        editButton.addEventListener("click", ()  => {
+        editButton.addEventListener("click", () => {
+            currentMerchandise = merchandiseItem;
             //Set modal form to be viewable
-
+            modal.style.display = "block";
             //Populate modal form with merchandiseItem data
-            
+            let nameInput = document.getElementById("merchandiseName");
+            let priceInput = document.getElementById("merchandisePrice");
+            let brandInput = document.getElementById("merchandiseBrand");
+            let activeInput = document.getElementById("activeInd");
+
+            nameInput.value = merchandiseItem.Merchandise_Name;
+            priceInput.value = merchandiseItem.Price;
+            brandInput.value = merchandiseItem.Brand;
+            if (merchandiseItem.Display_Active.toLowerCase() === 'y') {
+                activeInput.checked = true;
+            } else {
+                activeInput.checked = false;
+            }
         });
         //Append the button to the row
         newRow.appendChild(editButton);
@@ -118,6 +137,12 @@ function PopulateMerchandiseManagementTable() {
         table.appendChild(newRow);
     });
 }
+
+//Saves the details of the current selected merchandise item
+function saveEdit() {
+    alert(currentMerchandise.toString());
+}
+
 //#endregion Merchandise Management Screen Functions
 
 function getWeather() {
