@@ -1,9 +1,27 @@
-﻿table{
+﻿/* Media Queries to adjust for screen size */
+
+
+
+/* End Media Queries */
+
+table {
     width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: auto;
+    border: 1px solid black;
 }
 
-th, tr{
+.tableDiv{
+    width: 1000px;
+    margin: auto;
     text-align: center;
+    overflow-x: scroll;
+}
+
+th, tr {
+    text-align: center;
+    border: 1px solid black;
 }
 
 button{

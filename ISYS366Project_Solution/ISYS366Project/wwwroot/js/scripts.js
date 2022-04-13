@@ -101,7 +101,7 @@ function PopulateMerchandiseManagementTable() {
         editButton.innerText = "Edit";
         editButton.className = "button-green";
         editButton.addEventListener("click", () => {
-            currentMerchandise = merchandiseItem;
+            currentMerchandise = new Merchandise(merchandiseItem.Merchandise_Id, merchandiseItem.Merchandise_Name, merchandiseItem.Price, merchandiseItem.Date_Added, merchandiseItem.Brand, merchandiseItem.Display_Active);
             //Set modal form to be viewable
             modal.style.display = "block";
             //Populate modal form with merchandiseItem data
@@ -142,17 +142,15 @@ function PopulateMerchandiseManagementTable() {
 
 //Saves the details edited in the dialog box and using the current merchandise
 function saveEdit() {
-    //Copy contents of currentMerchandise into new variable to save those values (if there is an error, we don't want those to be displayed)
-    //Or can we just use the current merchandise since the values reset anyways?????
+    //Get the id of the current merchandise
+    //Use the values in the boxes to update the values for that id (create new object of type merchandise to pass into POST)
+    var toSaveMerchandise = new Merchandise(currentMerchandise.Merchandise_Id, document.getElementById("merchandiseName").value, document.getElementById("merchandisePrice").value, currentMerchandise.Date_Added, document.getElementById("merchandiseBrand").value, currentMerchandise.Display_Active);
 
-    //Set the values of the copied/current merchandise to the values in the modal boxes
-
-    //Perform the POST using the currentMerchandise
+    //Perform the POST using the toSaveMerchandise
+    alert(toSaveMerchandise.toString()); 
 
     //Close the modal after a success or error message
-
-
-    alert(currentMerchandise.toString());
+    modal.style.display = "none";
 }
 
 //Sets the merchandiseItem to 'n'
