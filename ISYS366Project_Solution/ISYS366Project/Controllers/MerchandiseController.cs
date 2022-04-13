@@ -65,6 +65,74 @@ namespace ISYS366Project.Controllers
             return allMerchandise;
         }
 
+        //Save the changes to the edited row
+        [HttpPost]
+        [Route("SaveEditMerchandise")]
+        public void SaveEditMerchandise([FromBody]Merchandise item)
+        {
+            //Open the connection to the database
+            connection.Open();
+
+            //Create a command
+            MySqlCommand command = connection.CreateCommand();
+
+            //Set the command text to update the merchandise item with the specific id
+            command.CommandText = @"UPDATE MERCHANDISE
+                                    SET MERCHANDISE_NAME = @name, PRICE = @price, BRAND = @brand
+                                    WHERE MERCHANDISE_ID = @merchandiseId";
+            //Add the appropriate parameters
+            command.Parameters.AddWithValue("@name", item.Merchandise_Name);
+            command.Parameters.AddWithValue("@price", item.Price);
+            command.Parameters.AddWithValue("@brand", item.Brand);
+            command.Parameters.AddWithValue("@merchandiseId", item.Merchandise_Id);
+
+            // Execute the query and determine if it was successful or unsuccessful
+            if (command.ExecuteNonQuery() > 0)
+            {
+                System.Diagnostics.Debug.Write("Insert successful");
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write("Insert not successful");
+            }
+
+            //Close the connection
+            connection.Close();
+        }
+
+        //Save the changes to the edited row
+        [HttpPost]
+        [Route("SaveDeactivateMerchandise")]
+        public void SaveDeactivateMerchandise([FromBody] Merchandise item)
+        {
+            //Open the connection to the database
+            connection.Open();
+
+            //Create a command
+            MySqlCommand command = connection.CreateCommand();
+
+            //Set the command text to update the merchandise item with the specific id
+            command.CommandText = @"UPDATE MERCHANDISE
+                                    SET DISPLAY_ACTIVE = @active
+                                    WHERE MERCHANDISE_ID = @merchandiseId";
+            //Add the appropriate parameters
+            command.Parameters.AddWithValue("@active", item.Display_Active);
+            command.Parameters.AddWithValue("@merchandiseId", item.Merchandise_Id);
+
+            // Execute the query and determine if it was successful or unsuccessful
+            if (command.ExecuteNonQuery() > 0)
+            {
+                System.Diagnostics.Debug.Write("Insert successful");
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write("Insert not successful");
+            }
+
+            //Close the connection
+            connection.Close();
+        }
+
         // IEnumerable<User>
         //Get a specific user to verify credentials
         [HttpGet]

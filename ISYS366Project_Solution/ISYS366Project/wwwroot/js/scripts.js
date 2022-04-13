@@ -123,17 +123,33 @@ function PopulateMerchandiseManagementTable() {
         newRow.appendChild(editButton);
         
         //Add delete button column
-        let deleteButton = document.createElement("button");
-        deleteButton.innerText = "Deactivate";
-        deleteButton.className = "button-red";
-        deleteButton.addEventListener("click", () => {
-            currentMerchandise = merchandiseItem;
+        if (merchandiseItem.Display_Active === 'y') {
+            let deleteButton = document.createElement("button");
+            deleteButton.innerText = "Deactivate";
+            deleteButton.className = "button-red";
+            deleteButton.addEventListener("click", () => {
+                currentMerchandise = merchandiseItem;
 
-            //Set modal form to be viewable
-            deleteModal.style.display = "block";
-        });
-        //Append the button to the row
-        newRow.appendChild(deleteButton);
+                //Set modal form to be viewable
+                deleteModal.style.display = "block";
+            });
+            //Append the button to the row
+            newRow.appendChild(deleteButton);
+        } else {
+            let reactivateButton = document.createElement("button");
+            reactivateButton.innerText = "Reactivate";
+            reactivateButton.className = "bg-primary";
+            reactivateButton.addEventListener("click", () => {
+                currentMerchandise = merchandiseItem;
+
+                //Set modal to be visible
+                reactivateModal.style.display = "block";
+            });
+
+            //Append the row
+            newRow.appendChild(reactivateButton);
+        }
+        
 
         //Append the row to the table
         table.appendChild(newRow);
@@ -147,15 +163,104 @@ function saveEdit() {
     var toSaveMerchandise = new Merchandise(currentMerchandise.Merchandise_Id, document.getElementById("merchandiseName").value, document.getElementById("merchandisePrice").value, currentMerchandise.Date_Added, document.getElementById("merchandiseBrand").value, currentMerchandise.Display_Active);
 
     //Perform the POST using the toSaveMerchandise
-    alert(toSaveMerchandise.toString()); 
+    fetch('Merchandise/SaveEditMerchandise', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toSaveMerchandise),
+    })
+        .then(response => {
+            if (response.status === 200) {
+                alert("Item updated successfully");
+                location.reload();
+            } else {
+                alert("An error occurred trying to save");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
     //Close the modal after a success or error message
     modal.style.display = "none";
 }
 
+//Close the modal on cancel
+function cancelEditModal() {
+    modal.style.display = "none";
+}
+
 //Sets the merchandiseItem to 'n'
 function deactivateMerchandise() {
+    //Get the id of the current merchandise
+    //Use the values in the boxes to update the values for that id (create new object of type merchandise to pass into POST)
+    var toSaveMerchandise = new Merchandise(currentMerchandise.Merchandise_Id, currentMerchandise.Merchandise_Name, currentMerchandise.Price, currentMerchandise.Date_Added, currentMerchandise.Brand, "n");
 
+    //Perform the POST using the toSaveMerchandise
+    fetch('Merchandise/SaveDeactivateMerchandise', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toSaveMerchandise),
+    })
+        .then(response => {
+            if (response.status === 200) {
+                alert("Item updated successfully");
+                location.reload();
+            } else {
+                alert("An error occurred trying to save.");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    //Close the modal after a success or error message
+    deleteModal.style.display = "none";
+}
+
+//Close the modal on cancel
+function cancelDeactivateModal() {
+    deleteModal.style.display = "none";
+}
+
+//Sets the merchandiseItem to 'y'
+function reactivateMerchandise() {
+    //Get the id of the current merchandise
+    //Use the values in the boxes to update the values for that id (create new object of type merchandise to pass into POST)
+    var toSaveMerchandise = new Merchandise(currentMerchandise.Merchandise_Id, currentMerchandise.Merchandise_Name, currentMerchandise.Price, currentMerchandise.Date_Added, currentMerchandise.Brand, "y");
+
+    //Perform the POST using the toSaveMerchandise
+    fetch('Merchandise/SaveDeactivateMerchandise', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toSaveMerchandise),
+    })
+        .then(response => {
+            if (response.status === 200) {
+                alert("Item updated successfully");
+                location.reload();
+            } else {
+                alert("An error occurred trying to save.");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    //Close the modal after a success or error message
+    reactivateModal.style.display = "none";
+}
+
+function cancelReactivateModal() {
+    reactivateModal.style.display = "none";
 }
 
 //#endregion Merchandise Management Screen Functions

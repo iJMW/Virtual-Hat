@@ -75,9 +75,10 @@
                 <input type="text" id="merchandiseBrand" />
                 <br />
                 <label for="activeInd">Active: </label>
-                <input id="activeInd" type="checkbox" checked disabled/>
+                <input id="activeInd" type="checkbox" checked disabled />
                 <br />
                 <button type="button" id="saveEditButton" class="bg-primary text-white" onclick="saveEdit()">Save</button>
+                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelEditModal()">Cancel</button>
             </form>
         </div>
     </div>
@@ -86,7 +87,20 @@
         <div class="modal-content">
             <span class="close" id="closeIndicatorDelete">&times;</span>
             <form>
-                <button type="button" id="deleteButton" class="bg-primary text-white" onclick="deactivateMerchandise()">Deactivate</button>
+                <p>Are you sure you wish to deactivate the item?</p>
+                <button type="button" id="confirmButton" class="bg-primary text-white" onclick="deactivateMerchandise()">Confirm</button>
+                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelDeactivateModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+    <!-- Reactivate Modal -->
+    <div id="reactivateMerchandiseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeIndicatorReactivate">&times;</span>
+            <form>
+                <p>Are you sure you wish to reactivate the item?</p>
+                <button type="button" id="confirmButton" class="bg-primary text-white" onclick="reactivateMerchandise()">Confirm</button>
+                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelReactivateModal()">Cancel</button>
             </form>
         </div>
     </div>
