@@ -263,6 +263,54 @@ function cancelReactivateModal() {
     reactivateModal.style.display = "none";
 }
 
+//Open the new modal
+function openNewItemModal() {
+    newMerchandiseModal.style.display = "block";
+    document.getElementById("merchandiseName").value = "";
+    document.getElementById("merchandisePrice").value = "";
+    document.getElementById("merchandiseBrand").value = "";
+    document.getElementById("activeInd").value = "";
+}
+
+//
+function saveNew() {
+    //For whatever reason, 1 has to be here even though it will not be that value when inserted
+    var toSaveNewMerchandise = new Merchandise("1", document.getElementById("merchandiseName").value, document.getElementById("merchandisePrice").value, new Date(0), document.getElementById("merchandiseBrand").value, document.getElementById("activeInd").value);
+
+    if (!document.getElementById("merchandiseName").value || !document.getElementById("merchandisePrice").value
+        || !document.getElementById("merchandiseBrand").value || !document.getElementById("activeInd").value) {
+        alert("Please populate all of the fields");
+    } else {
+        //Perform the POST using the toSaveMerchandise
+        fetch('Merchandise/SaveNewMerchandise', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(toSaveNewMerchandise),
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    alert("Item updated successfully");
+                    location.reload();
+                } else {
+                    alert("An error occurred trying to save");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+        newMerchandiseModal.style.display = "none";
+    }
+}
+
+//Close the new merchandise modal
+function cancelNewModal() {
+    newMerchandiseModal.style.display = "none";
+}
+
 //#endregion Merchandise Management Screen Functions
 
 function getWeather() {

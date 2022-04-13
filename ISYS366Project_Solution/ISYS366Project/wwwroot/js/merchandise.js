@@ -1,5 +1,13 @@
 ﻿var deleteModal = document.getElementById("deleteMerchandiseModal");
 var reactivateModal = document.getElementById("reactivateMerchandiseModal");
+var newMerchandiseModal = document.getElementById("newMerchandiseModal");
+
+var spanNewClose = document.getElementById("closeIndicatorNew");
+
+spanNewClose.onclick = function () {
+    newMerchandiseModal.style.display = "none";
+}
+
 var spanReactivateClose = document.getElementById("closeIndicatorReactivate");
 
 spanReactivateClose.onclick = function () {

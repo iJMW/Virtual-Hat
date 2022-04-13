@@ -57,8 +57,36 @@
                 <th>Date Added</th>
                 <th>Brand</th>
                 <th>Active</th>
+                <th>
+                    <button type="button" onclick="openNewItemModal()">New +</button>
+                </th>
             </tr>
         </table>
+    </div>
+    <!-- New Merchandise Modal -->
+    <div id="newMerchandiseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeIndicatorNew">&times;</span>
+            <form>
+                <label for="merchandiseName">Name: </label>
+                <input type="text" id="merchandiseName" />
+                <br />
+                <label for="merchandisePrice">Price: </label>
+                <input type="text" id="merchandisePrice" />
+                <br />
+                <label for="merchandiseBrand">Brand: </label>
+                <input type="text" id="merchandiseBrand" />
+                <br />
+                <label for="activeInd">Active: </label>
+                <select id="activeInd">
+                    <option value="y">Yes</option>
+                    <option value="n">No</option>
+                </select>
+                <br />
+                <button type="button" id="saveNewButton" class="bg-primary text-white" onclick="saveNew()">Save</button>
+                <button type="button" id="cancelNewButton" class="bg-secondary text-white" onclick="cancelNewModal()">Cancel</button>
+            </form>
+        </div>
     </div>
     <!-- Edit Merchandise Modal -->
     <div id="editMerchandiseModal" class="modal">
