@@ -38,7 +38,7 @@ button{
     background-color: rgb(206, 43, 43);
 }
 
-label, input[type="text"] {
+label, input[type="text"], input[type="file"] {
     width: 25%;
     margin: 10px;
     display: inline-block;

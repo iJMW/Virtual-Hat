@@ -272,7 +272,7 @@ function openNewItemModal() {
     document.getElementById("activeInd").value = "";
 }
 
-//
+//Saves a new item to the database
 function saveNew() {
     //For whatever reason, 1 has to be here even though it will not be that value when inserted
     var toSaveNewMerchandise = new Merchandise("1", document.getElementById("merchandiseName").value, document.getElementById("merchandisePrice").value, new Date(0), document.getElementById("merchandiseBrand").value, document.getElementById("activeInd").value);
@@ -292,8 +292,20 @@ function saveNew() {
         })
             .then(response => {
                 if (response.status === 200) {
-                    alert("Item updated successfully");
-                    location.reload();
+                    var itemImage = document.getElementById("itemImg").files[0];
+                    var formData = new FormData();
+                    formData.append("itemImage", itemImage);
+                    response.json().then(data => {
+                        returnedMerchandise = new Merchandise(data.merchandise_Id, data.merchandise_Name, data.price, data.date_Added, data.brand, data.display_Active);
+                        formData.append("id", returnedMerchandise.Merchandise_Id);
+                        fetch('Merchandise/UploadImage', {
+                            method: 'POST',
+                            body: formData
+                        });
+                    }).then(() => {
+                        alert("Item updated successfully");
+                        location.reload();
+                    });
                 } else {
                     alert("An error occurred trying to save");
                 }
@@ -312,19 +324,6 @@ function cancelNewModal() {
 }
 
 //#endregion Merchandise Management Screen Functions
-
-function getWeather() {
-    fetch('weatherforecast/GetWeatherForecast')
-        .then(response => response.json())
-        .then(data => printToConsole(data))
-        .catch(error => console.error('Unable to get items', error));
-}
-
-function printToConsole(data) {
-    data.forEach(item => {
-        console.log(item.date);
-    });
-}
 
 function GetUser() {
     console.log("Inside GetUser");

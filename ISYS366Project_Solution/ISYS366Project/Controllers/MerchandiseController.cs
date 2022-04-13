@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using System.Drawing;
 
 namespace ISYS366Project.Controllers
 {
@@ -9,11 +10,13 @@ namespace ISYS366Project.Controllers
     {
         private readonly ILogger<MerchandiseController> _logger;
         private MySqlConnection connection;
+        private IWebHostEnvironment _hostingEnvironment;
 
-        public MerchandiseController(ILogger<MerchandiseController> logger)
+        public MerchandiseController(ILogger<MerchandiseController> logger, IWebHostEnvironment environment)
         {
             _logger = logger;
             connection = new MySqlConnection("server=localhost;userid=root;password=root;database=ecommerce");
+            _hostingEnvironment = environment;
         }
 
         //Gets a list of all items in the merchandise table
@@ -103,8 +106,9 @@ namespace ISYS366Project.Controllers
         //Save the changes to the new row
         [HttpPost]
         [Route("SaveNewMerchandise")]
-        public void SaveNewMerchandise([FromBody] Merchandise item)
+        public Merchandise SaveNewMerchandise([FromBody] Merchandise item)
         {
+            
             //Open the connection to the database
             connection.Open();
 
@@ -125,6 +129,16 @@ namespace ISYS366Project.Controllers
             if (command.ExecuteNonQuery() > 0)
             {
                 System.Diagnostics.Debug.Write("Insert successful");
+
+                command = connection.CreateCommand();
+                command.CommandText = @"SELECT MAX(MERCHANDISE_ID)
+                                        FROM MERCHANDISE";
+                //Create a reader to execute the query
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    item.Merchandise_Id = Int32.Parse(reader.GetString(0));
+                }
             }
             else
             {
@@ -133,6 +147,23 @@ namespace ISYS366Project.Controllers
 
             //Close the connection
             connection.Close();
+
+            return item;
+        }
+
+        //Save the image for the item added in the images folder
+        [HttpPost]
+        [Route("UploadImage")]
+        public void uploadImage()
+        {
+            var id = Request.Form["id"];
+
+            IFormFile file = Request.Form.Files[0];
+            var filePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + ".png";
+            Stream fileStream = new FileStream(filePath, FileMode.Create);
+            file.CopyToAsync(fileStream);
+
+            
         }
 
         //Save the changes to the edited row
