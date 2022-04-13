@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace ISYS366Project.Controllers
 {
@@ -159,11 +160,43 @@ namespace ISYS366Project.Controllers
             var id = Request.Form["id"];
 
             IFormFile file = Request.Form.Files[0];
-            var filePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + ".png";
+            var filePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + "_toEdit.png";
             Stream fileStream = new FileStream(filePath, FileMode.Create);
             file.CopyToAsync(fileStream);
+            fileStream.Close();
 
-            
+            //Resize the image
+            /*
+            Image image = Image.FromStream(fileStream);
+
+            var destRect = new Rectangle(0, 0, 450, 300);
+            var destImage = new Bitmap(450, 300);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(System.Drawing.Drawing2D.WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            fileStream.Close();
+            filePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + ".png";
+            fileStream = new FileStream(filePath, FileMode.Create);
+            Image newImage = (Image)destImage;
+            newImage.Save(filePath);
+
+            fileStream.Close();
+            */
         }
 
         //Save the changes to the edited row
