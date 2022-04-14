@@ -7,12 +7,13 @@
 // Use this file to add JavaScript to your project
 
 class User{
-    constructor(username, password, email, firstName, lastName){
+    constructor(username, password, email, firstName, lastName, isAdmin){
         this.Username = username;
         this.User_Password = password;
         this.Email = email;
         this.First_Name = firstName;
         this.Last_Name = lastName;
+        this.isAdmin = isAdmin;
     }
 }
 
@@ -325,10 +326,242 @@ function cancelNewModal() {
 
 //#endregion Merchandise Management Screen Functions
 
+
+//#region User Management Screen Functions
+
+var userList = [];
+function GetAllUsers() {
+    fetch('UserManagement/GetAllUsers')
+        .then(response => {
+            response.json().then(data => {
+                data.forEach(item => {
+                    //Add a merchanise object using the item's data
+                    userList.push(new User(item.username, "", item.email, item.first_Name, item.last_Name, item.isAdmin));
+                });
+            }).then(() => {
+                //Populate the merchandise management table
+                PopulateUserManagementTable();
+            });
+        })
+        .catch(error => {
+            //Display the error to the console
+            console.log(error);
+        });
+}
+
+var currentUser;
+function PopulateUserManagementTable() {
+    //Get the table for populating
+    let table = document.getElementById("userTable");
+    userList.forEach(userItem => {
+        //Create the row
+        let newRow = document.createElement("tr");
+        //Add the classes
+        newRow.classList.add("bg-light", "text-black");
+
+        //Create the name column
+        let username = document.createElement("td");
+        username.innerText = userItem.Username;
+
+        //Append it
+        newRow.appendChild(username);
+
+        //Create the price column
+        let email = document.createElement("td");
+        email.innerText = userItem.Email;
+        //Append it
+        newRow.appendChild(email);
+
+        //Create the date column
+        let firstName = document.createElement("td");
+        firstName.innerText = userItem.First_Name;
+        //Append it
+        newRow.appendChild(firstName);
+
+        //Create the brand column
+        let lastName = document.createElement("td");
+        lastName.innerText = userItem.Last_Name;
+        //Append it
+        newRow.appendChild(lastName);
+
+        //Create the active column
+        let admin = document.createElement("td");
+        admin.innerText = userItem.isAdmin;
+        //Append it
+        newRow.appendChild(admin);
+
+        //Add a edit button column
+        let editButton = document.createElement("button");
+        editButton.innerText = "Edit";
+        editButton.className = "button-green";
+        editButton.addEventListener("click", () => {
+            currentUser = new User(userItem.Username, "", userItem.Email, userItem.First_Name, userItem.Last_Name, userItem.isAdmin);
+            //Set modal form to be viewable
+            editUserModal.style.display = "block";
+            //Populate modal form with merchandiseItem data
+            let usernameInput = document.getElementById("username");
+            let emailInput = document.getElementById("userEmail");
+            let firstNameInput = document.getElementById("userFirstName");
+            let lastNameInput = document.getElementById("userLastName");
+            let isAdminInput = document.getElementById("isAdmin");
+
+            usernameInput.value = userItem.Username;
+            emailInput.value = userItem.Email;
+            firstNameInput.value = userItem.First_Name;
+            lastNameInput.value = userItem.Last_Name;
+
+            if (userItem.isAdmin.toLowerCase() === 'y') {
+                isAdminInput.checked = true;
+            } else {
+                isAdminInput.checked = false;
+            }
+        });
+        //Append the button to the row
+        newRow.appendChild(editButton);
+
+        if (userItem.isAdmin.toLowerCase() !== 'y') {
+            let deleteButton = document.createElement("button");
+            deleteButton.innerText = "Delete";
+            deleteButton.className = "button-red";
+            deleteButton.addEventListener("click", () => {
+                currentUser = new User(userItem.Username, "", userItem.Email, userItem.First_Name, userItem.Last_Name, userItem.isAdmin);;
+
+                //Set modal form to be viewable
+                deleteUserModal.style.display = "block";
+            });
+
+            //Append the button to the row
+            newRow.appendChild(deleteButton);
+
+            let makeAdminButton = document.createElement("button");
+            makeAdminButton.innerText = "Make Admin";
+            makeAdminButton.className = "bg-primary";
+            makeAdminButton.addEventListener("click", () => {
+                currentUser = userItem;
+
+                //Set make admin modal to be viewable
+                makeAdminModal.style.display = "block";
+            });
+
+            //Append the button
+            newRow.appendChild(makeAdminButton);
+        }
+
+        //Append the row to the table
+        table.appendChild(newRow);
+    });
+}
+
+//Save user edit
+function saveUserEdit() {
+    //Get the id of the current merchandise
+    //Use the values in the boxes to update the values for that id (create new object of type merchandise to pass into POST)
+    var toSaveUser = new User(currentUser.Username, "", document.getElementById("userEmail").value, document.getElementById("userFirstName").value, document.getElementById("userLastName").value, currentUser.isAdmin);
+
+    //Perform the POST using the toSaveMerchandise
+    fetch('UserManagement/SaveEditUser', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toSaveUser),
+    })
+        .then(response => {
+            if (response.status === 200) {
+                alert("Item updated successfully");
+                location.reload();
+            } else {
+                alert("An error occurred trying to save");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    //Close the modal after a success or error message
+    editUserModal.style.display = "none";
+}
+
+//Reset data and cancel user edit
+function cancelUserEdit() {
+    document.getElementById("username") = "";
+    document.getElementById("userEmail") = "";
+    document.getElementById("userFirstName") = "";
+    document.getElementById("userLastName") = "";
+    document.getElementById("isAdmin").checked = false;
+    editUserModal.style.display = "none";
+}
+
+function deleteUser() {
+    var toDeleteUser = new User(currentUser.Username, currentUser.User_Password, currentUser.Email, currentUser.First_Name, currentUser.Last_Name, currentUser.isAdmin);
+
+    //Perform the POST using the toSaveMerchandise
+    fetch('UserManagement/DeleteUser', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toDeleteUser),
+    })
+        .then(response => {
+            if (response.status === 200) {
+                alert("Item removed successfully");
+                location.reload();
+            } else {
+                alert("An error occurred trying to remove user");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    //Close the modal after a success or error message
+    deleteUserModal.style.display = "none";
+}
+
+function cancelUser() {
+    deleteUserModal.style.display = "none";
+}
+
+function makeAdmin() {
+    var toMakeAdminUser = new User(currentUser.Username, currentUser.User_Password, currentUser.Email, currentUser.First_Name, currentUser.Last_Name, "y");
+
+    //Perform the POST using the toSaveMerchandise
+    fetch('UserManagement/MakeAdmin', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toMakeAdminUser),
+    })
+        .then(response => {
+            if (response.status === 200) {
+                alert("User made admin successfully");
+                location.reload();
+            } else {
+                alert("An error occurred trying to make user admin");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    //Close the modal after a success or error message
+    deleteUserModal.style.display = "none";
+}
+
+function cancelAdmin() {
+    makeAdminModal.style.display = "none";
+}
+//#endregion User Management Screen Functions
+
 function GetUser() {
     console.log("Inside GetUser");
 
-    let user = new User(document.getElementById("loginUsername").value, document.getElementById("loginPassword").value, "", "", "");
+    let user = new User(document.getElementById("loginUsername").value, document.getElementById("loginPassword").value, "", "", "", "");
 
     fetch('UserManagement/GetUser', {
         method: 'POST',
@@ -356,7 +589,7 @@ function GetUser() {
 
 function AddUser() {
 
-    let user = new User(document.getElementById("signupUsername").value, document.getElementById("signupPassword").value, document.getElementById("signupEmail").value, document.getElementById("signupFirstName").value, document.getElementById("signupLastName").value);
+    let user = new User(document.getElementById("signupUsername").value, document.getElementById("signupPassword").value, document.getElementById("signupEmail").value, document.getElementById("signupFirstName").value, document.getElementById("signupLastName").value, "n");
             
    // Call the AddUser function in UserManagementController
     fetch('UserManagement/AddUser', {

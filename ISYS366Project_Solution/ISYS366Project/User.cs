@@ -11,5 +11,7 @@ namespace ISYS366Project
         public string First_Name {get; set;}
 
         public string Last_Name {get; set;}
+
+        public string isAdmin { get; set; }
     }
 }
