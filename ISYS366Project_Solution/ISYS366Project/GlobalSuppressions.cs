@@ -6,3 +6,6 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:ISYS366Project.Controllers.MerchandiseController.uploadImage")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:ISYS366Project.Controllers.MerchandiseController.resizeImage(System.String)")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:ISYS366Project.Controllers.MerchandiseController.resizeImage(System.String,System.Int32,System.Int32)")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:ISYS366Project.Controllers.MerchandiseController.resizeImage(System.String,System.Int32,System.Int32,System.String)")]

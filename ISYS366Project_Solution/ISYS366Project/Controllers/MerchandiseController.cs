@@ -152,28 +152,27 @@ namespace ISYS366Project.Controllers
             return item;
         }
 
-        //Save the image for the item added in the images folder
-        [HttpPost]
-        [Route("UploadImage")]
-        public void uploadImage()
+        /* 
+         * This method's code was utilized largely from the following video: https://youtu.be/7rz2UPTzZYU
+         * 
+         * Although not a complete copy, the idea and most of it is from the video. 
+         * In order for it to work, some adjustments had to be made
+         * 
+         * Purpose: Resize the uploaded image to the required dimensions
+         */
+        private void resizeImage(string filePath, int height, int width, string resizedFilePath)
         {
-            var id = Request.Form["id"];
+            //Get the image
+            Image image = Image.FromFile(filePath);
 
-            IFormFile file = Request.Form.Files[0];
-            var filePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + "_toEdit.png";
-            Stream fileStream = new FileStream(filePath, FileMode.Create);
-            file.CopyToAsync(fileStream);
-            fileStream.Close();
+            //Create the destination information
+            var destRect = new Rectangle(0, 0, height, width);
+            var destImage = new Bitmap(height, width);
 
-            //Resize the image
-            /*
-            Image image = Image.FromStream(fileStream);
-
-            var destRect = new Rectangle(0, 0, 450, 300);
-            var destImage = new Bitmap(450, 300);
-
+            //Set the resolution
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
+            //Designate the graphics type for resizing the image
             using (var graphics = Graphics.FromImage(destImage))
             {
                 graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
@@ -182,21 +181,51 @@ namespace ISYS366Project.Controllers
                 graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                 graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
+                //Designate the wrapMode for the image
                 using (var wrapMode = new ImageAttributes())
                 {
                     wrapMode.SetWrapMode(System.Drawing.Drawing2D.WrapMode.TileFlipXY);
+                    //Draw the image
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
 
-            fileStream.Close();
-            filePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + ".png";
-            fileStream = new FileStream(filePath, FileMode.Create);
+            //Create the resized image at the location
+            image.Dispose();
+            //Save the image
             Image newImage = (Image)destImage;
-            newImage.Save(filePath);
+            newImage.Save(resizedFilePath);
+        }
 
+        //Save the image for the item added in the images folder
+        [HttpPost]
+        [Route("UploadImage")]
+        public void uploadImage()
+        {
+            //Get the id from the form data
+            var id = Request.Form["id"];
+
+            //Get the file from the form data
+            IFormFile file = Request.Form.Files[0];
+            //Create the file path
+            var filePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + "_toEdit.png";
+            //Create the file stream
+            Stream fileStream = new FileStream(filePath, FileMode.Create);
+            //Copy the uploaded file to the img directory
+            file.CopyTo(fileStream);
+            //Close the file stream
             fileStream.Close();
-            */
+
+            //Resize the image for the homepage
+            string editFilePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + ".png";
+            resizeImage(filePath, 450, 300, editFilePath);
+            //Resize the image for the shop item detail page
+            string largeFilePath = _hostingEnvironment.WebRootPath + "\\img\\" + id + "_Large.png";
+            resizeImage(filePath, 600, 700, largeFilePath);
+
+            //Remove the old image
+            FileInfo fileInfo = new FileInfo(filePath);
+            fileInfo.Delete();
         }
 
         //Save the changes to the edited row
