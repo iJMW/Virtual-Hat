@@ -82,7 +82,7 @@
                 <input id="isAdmin" type="checkbox" checked disabled />
                 <br />
                 <button type="button" id="saveEditButton" class="bg-primary text-white" onclick="saveUserEdit()">Save</button>
-                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelUserEdit()">Cancel</button>
+                <button type="button" id="cancelEditButton" class="bg-secondary text-white" onclick="cancelUserEdit()">Cancel</button>
             </form>
         </div>
     </div>
@@ -92,8 +92,8 @@
             <span class="close" id="closeIndicatorDeleteUser">&times;</span>
             <form>
                 <p>Are you sure you wish to delete the user?</p>
-                <button type="button" id="confirmButton" class="bg-primary text-white" onclick="deleteUser()">Confirm</button>
-                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelUser()">Cancel</button>
+                <button type="button" id="confirmDeleteButton" class="bg-primary text-white" onclick="deleteUser()">Confirm</button>
+                <button type="button" id="cancelDeleteButton" class="bg-secondary text-white" onclick="cancelUser()">Cancel</button>
             </form>
         </div>
     </div>
@@ -103,8 +103,8 @@
             <span class="close" id="closeIndicatorMakeAdmin">&times;</span>
             <form>
                 <p>Are you sure you wish to make the user an administrator?</p>
-                <button type="button" id="confirmButton" class="bg-primary text-white" onclick="makeAdmin()">Confirm</button>
-                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelAdmin()">Cancel</button>
+                <button type="button" id="confirmAdminButton" class="bg-primary text-white" onclick="makeAdmin()">Confirm</button>
+                <button type="button" id="cancelAdminButton" class="bg-secondary text-white" onclick="cancelAdmin()">Cancel</button>
             </form>
         </div>
     </div>
