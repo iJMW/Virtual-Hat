@@ -103,13 +103,14 @@ function PopulateMerchandiseManagementTable() {
         editButton.className = "button-green";
         editButton.addEventListener("click", () => {
             currentMerchandise = new Merchandise(merchandiseItem.Merchandise_Id, merchandiseItem.Merchandise_Name, merchandiseItem.Price, merchandiseItem.Date_Added, merchandiseItem.Brand, merchandiseItem.Display_Active);
+            console.log(currentMerchandise.toString());
             //Set modal form to be viewable
             modal.style.display = "block";
             //Populate modal form with merchandiseItem data
-            let nameInput = document.getElementById("merchandiseName");
-            let priceInput = document.getElementById("merchandisePrice");
-            let brandInput = document.getElementById("merchandiseBrand");
-            let activeInput = document.getElementById("activeInd");
+            let nameInput = document.getElementById("editMerchandiseName");
+            let priceInput = document.getElementById("editMerchandisePrice");
+            let brandInput = document.getElementById("editMerchandiseBrand");
+            let activeInput = document.getElementById("editActiveInd");
 
             nameInput.value = merchandiseItem.Merchandise_Name;
             priceInput.value = merchandiseItem.Price;
@@ -161,7 +162,7 @@ function PopulateMerchandiseManagementTable() {
 function saveEdit() {
     //Get the id of the current merchandise
     //Use the values in the boxes to update the values for that id (create new object of type merchandise to pass into POST)
-    var toSaveMerchandise = new Merchandise(currentMerchandise.Merchandise_Id, document.getElementById("merchandiseName").value, document.getElementById("merchandisePrice").value, currentMerchandise.Date_Added, document.getElementById("merchandiseBrand").value, currentMerchandise.Display_Active);
+    var toSaveMerchandise = new Merchandise(currentMerchandise.Merchandise_Id, document.getElementById("editMerchandiseName").value, document.getElementById("editMerchandisePrice").value, currentMerchandise.Date_Added, document.getElementById("editMerchandiseBrand").value, currentMerchandise.Display_Active);
 
     //Perform the POST using the toSaveMerchandise
     fetch('Merchandise/SaveEditMerchandise', {

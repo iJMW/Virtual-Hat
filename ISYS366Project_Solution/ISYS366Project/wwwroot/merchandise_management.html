@@ -97,20 +97,20 @@
         <div class="modal-content">
             <span class="close" id="closeIndicator">&times;</span>
             <form>
-                <label for="merchandiseName">Name: </label>
-                <input type="text" id="merchandiseName" />
+                <label for="editMerchandiseName">Name: </label>
+                <input type="text" id="editMerchandiseName" />
                 <br />
-                <label for="merchandisePrice">Price: </label>
-                <input type="text" id="merchandisePrice" />
+                <label for="editMerchandisePrice">Price: </label>
+                <input type="text" id="editMerchandisePrice" />
                 <br />
-                <label for="merchandiseBrand">Brand: </label>
-                <input type="text" id="merchandiseBrand" />
+                <label for="editMerchandiseBrand">Brand: </label>
+                <input type="text" id="editMerchandiseBrand" />
                 <br />
-                <label for="activeInd">Active: </label>
-                <input id="activeInd" type="checkbox" checked disabled />
+                <label for="editActiveInd">Active: </label>
+                <input id="editActiveInd" type="checkbox" checked disabled />
                 <br />
                 <button type="button" id="saveEditButton" class="bg-primary text-white" onclick="saveEdit()">Save</button>
-                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelEditModal()">Cancel</button>
+                <button type="button" id="cancelEditButton" class="bg-secondary text-white" onclick="cancelEditModal()">Cancel</button>
             </form>
         </div>
     </div>
@@ -121,7 +121,7 @@
             <form>
                 <p>Are you sure you wish to deactivate the item?</p>
                 <button type="button" id="confirmButton" class="bg-primary text-white" onclick="deactivateMerchandise()">Confirm</button>
-                <button type="button" id="cancelButton" class="bg-secondary text-white" onclick="cancelDeactivateModal()">Cancel</button>
+                <button type="button" id="cancelDeleteButton" class="bg-secondary text-white" onclick="cancelDeactivateModal()">Cancel</button>
             </form>
         </div>
     </div>
