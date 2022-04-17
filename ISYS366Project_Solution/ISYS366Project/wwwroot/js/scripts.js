@@ -663,7 +663,7 @@ function PopulateHomePage() {
         //Display an image for the item inside the card
         let image = document.createElement("img");
         image.className = "card-img-top";
-        image.src = "../img/1.png";//"../img/" + toPopulateMerchandise.Merchandise_Id + ".png";
+        image.src = "../img/" + toPopulateMerchandise.Merchandise_Id + ".png";
         image.alt = "Image of " + toPopulateMerchandise.Merchandise_Name;
 
         //Container for the details div
