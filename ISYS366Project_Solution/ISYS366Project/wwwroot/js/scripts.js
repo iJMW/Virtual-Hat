@@ -461,29 +461,36 @@ function saveUserEdit() {
     //Use the values in the boxes to update the values for that id (create new object of type merchandise to pass into POST)
     var toSaveUser = new User(currentUser.Username, "", document.getElementById("userEmail").value, document.getElementById("userFirstName").value, document.getElementById("userLastName").value, currentUser.isAdmin);
 
-    //Perform the POST using the toSaveMerchandise
-    fetch('UserManagement/SaveEditUser', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(toSaveUser),
-    })
-        .then(response => {
-            if (response.status === 200) {
-                alert("Item updated successfully");
-                location.reload();
-            } else {
-                alert("An error occurred trying to save");
-            }
+    if (!document.getElementById("userEmail").value || !document.getElementById("userFirstName").value
+        || !document.getElementById("userLastName").value) {
+        alert("Please populate all fields");
+    } else {
+        //Perform the POST using the toSaveMerchandise
+        fetch('UserManagement/SaveEditUser', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(toSaveUser),
         })
-        .catch(error => {
-            console.log(error);
-        });
+            .then(response => {
+                if (response.status === 200) {
+                    alert("Item updated successfully");
+                    location.reload();
+                } else {
+                    alert("An error occurred trying to save");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
 
-    //Close the modal after a success or error message
-    editUserModal.style.display = "none";
+        //Close the modal after a success or error message
+        editUserModal.style.display = "none";
+    }
+
+    
 }
 
 //Reset data and cancel user edit
