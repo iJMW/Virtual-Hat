@@ -261,11 +261,10 @@ namespace ISYS366Project.Controllers
             connection.Close();
         }
 
-        // IEnumerable<User>
-        //Get a specific user to verify credentials
+        //Returns a list of all of the active merchandise
         [HttpGet]
-        [Route("GetMerchandise")]
-        public Merchandise GetMerchandise()
+        [Route("GetActiveMerchandise")]
+        public List<Merchandise> GetActiveMerchandise()
         {
             //Open the database connection
             connection.Open();
@@ -273,36 +272,37 @@ namespace ISYS366Project.Controllers
             MySqlCommand command = connection.CreateCommand();
             //The query/action to be performed
             command.CommandText = @"SELECT *
-                                    FROM MERCHANDISE
-                                    WHERE lower(DISPLAY_ACTIVE)='y';";
+                                    FROM MERCHANDISE merch
+                                    WHERE lower(merch.DISPLAY_ACTIVE)='y';";
 
             //Create a reader to execute the query
             var reader = command.ExecuteReader();
             //Initialize a new user to be returned
-            Merchandise returnedMerchandise = new Merchandise();
+            List<Merchandise> returnedMerchandise = new List<Merchandise>();
             //Iterate over the returned result set
             while (reader.Read())
             {
+                Merchandise item = new Merchandise();
                 //Username is first
-                returnedMerchandise.Merchandise_Id = Int32.Parse(reader.GetString(0));
+                item.Merchandise_Id = Int32.Parse(reader.GetString(0));
                 //Password is second
-                returnedMerchandise.Merchandise_Name = reader.GetString(1);
+                item.Merchandise_Name = reader.GetString(1);
                 //Email is third
-                returnedMerchandise.Price = float.Parse(reader.GetString(2));
+                item.Price = float.Parse(reader.GetString(2));
                 //First Name is fourth
-                returnedMerchandise.Date_Added = DateTime.Parse(reader.GetString(3)).ToShortDateString();
+                item.Date_Added = DateTime.Parse(reader.GetString(3)).ToShortDateString();
                 //Last Name is fifth
-                returnedMerchandise.Brand = reader.GetString(4);
+                item.Brand = reader.GetString(4);
                 //Last Name is fifth
-                returnedMerchandise.Display_Active = reader.GetString(4);
+                item.Display_Active = reader.GetString(4);
 
-                return returnedMerchandise;
+                returnedMerchandise.Add(item);
             }
 
             //Close the connection
             connection.Close();
             //Return the user
-            return null;
+            return returnedMerchandise;
         }
 
     }
