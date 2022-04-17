@@ -70,22 +70,22 @@
             <span class="close" id="closeIndicatorNew">&times;</span>
             <form>
                 <label for="merchandiseName">Name: </label>
-                <input type="text" id="merchandiseName" />
+                <input type="text" id="merchandiseName" required/>
                 <br />
                 <label for="merchandisePrice">Price: </label>
-                <input type="text" id="merchandisePrice" />
+                <input type="text" id="merchandisePrice" required/>
                 <br />
                 <label for="merchandiseBrand">Brand: </label>
-                <input type="text" id="merchandiseBrand" />
+                <input type="text" id="merchandiseBrand" required/>
                 <br />
                 <label for="activeInd">Active: </label>
-                <select id="activeInd">
+                <select id="activeInd" required>
                     <option value="y">Yes</option>
                     <option value="n">No</option>
                 </select>
                 <br />
                 <label for="itemImg">Image: </label>
-                <input type="file" id="itemImg" />
+                <input type="file" id="itemImg" required />
                 <br />
                 <button type="button" id="saveNewButton" class="bg-primary text-white" onclick="saveNew()">Save</button>
                 <button type="button" id="cancelNewButton" class="bg-secondary text-white" onclick="cancelNewModal()">Cancel</button>
@@ -98,13 +98,13 @@
             <span class="close" id="closeIndicator">&times;</span>
             <form>
                 <label for="editMerchandiseName">Name: </label>
-                <input type="text" id="editMerchandiseName" />
+                <input type="text" id="editMerchandiseName" required/>
                 <br />
                 <label for="editMerchandisePrice">Price: </label>
-                <input type="text" id="editMerchandisePrice" />
+                <input type="text" id="editMerchandisePrice" required/>
                 <br />
                 <label for="editMerchandiseBrand">Brand: </label>
-                <input type="text" id="editMerchandiseBrand" />
+                <input type="text" id="editMerchandiseBrand" required />
                 <br />
                 <label for="editActiveInd">Active: </label>
                 <input id="editActiveInd" type="checkbox" checked disabled />

@@ -272,6 +272,7 @@ function openNewItemModal() {
     document.getElementById("merchandisePrice").value = "";
     document.getElementById("merchandiseBrand").value = "";
     document.getElementById("activeInd").value = "";
+    document.getElementById("itemImg").value = "";
 }
 
 //Saves a new item to the database
@@ -280,7 +281,8 @@ function saveNew() {
     var toSaveNewMerchandise = new Merchandise("1", document.getElementById("merchandiseName").value, document.getElementById("merchandisePrice").value, new Date(0), document.getElementById("merchandiseBrand").value, document.getElementById("activeInd").value);
 
     if (!document.getElementById("merchandiseName").value || !document.getElementById("merchandisePrice").value
-        || !document.getElementById("merchandiseBrand").value || !document.getElementById("activeInd").value) {
+        || !document.getElementById("merchandiseBrand").value || !document.getElementById("activeInd").value
+        || !document.getElementById("itemImg").value) {
         alert("Please populate all of the fields");
     } else {
         //Perform the POST using the toSaveMerchandise
