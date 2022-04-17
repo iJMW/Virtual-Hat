@@ -20,7 +20,7 @@ namespace ISYS366Project.Controllers
         //Get a specific user to verify credentials
         [HttpGet]
         [Route("GetMerchandise")]
-        public Merchandise GetMerchandise()
+        public List<Merchandise> GetMerchandise()
         {
             //Open the database connection
             connection.Open();
@@ -34,25 +34,32 @@ namespace ISYS366Project.Controllers
             //Create a reader to execute the query
             var reader = command.ExecuteReader();
             //Initialize a new user to be returned
-            Merchandise returnedMerchandise = new Merchandise();
+            var returnedMerchandiseList = new List<Merchandise>();
+            
+            Merchandise temp;   
             //Iterate over the returned result set
             while (reader.Read())
             {
+                temp = new Merchandise();
                 //Username is first
-                returnedMerchandise.Merchandise_Id = Int32.Parse(reader.GetString(0));
+                temp.Merchandise_Id  = Convert.ToInt32(reader["Merchandise_Id"].ToString());
                 //Password is second
-                returnedMerchandise.Merchandise_Name = reader.GetString(1);
+                temp.Merchandise_Name = reader["Merchandise_Name"].ToString();
                 //Email is third
-                returnedMerchandise.Price = float.Parse(reader.GetString(2));
+                temp.Price = float.Parse(reader["Price"].ToString());
                 //First Name is fourth
-                returnedMerchandise.Date_Added = DateTime.Parse(reader.GetString(3)).ToShortDateString();
+                temp.Date_Added = reader["Date_Added"].ToString();
                 //Last Name is fifth
-                returnedMerchandise.Brand = reader.GetString(4);
+                temp.Brand = reader["Brand"].ToString();
                 //Last Name is fifth
-                returnedMerchandise.Display_Active = reader.GetString(4);
+                temp.Display_Active = reader["Display_Active"].ToString();
 
-                return returnedMerchandise;
+                returnedMerchandiseList.Add(temp);
+
+                
             }
+
+            return returnedMerchandiseList;
 
             //Close the connection
             connection.Close();

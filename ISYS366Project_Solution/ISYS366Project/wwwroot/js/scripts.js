@@ -16,6 +16,7 @@ class User{
     }
 }
 
+
 let merchandise = JSON.parse(sessionStorage.getItem("merchandise"));
 
 class Merchandise {
@@ -90,15 +91,22 @@ function AddUser() {
 
 function GetMerchandise() {
     console.log("Inside GetMerchandise");
+  
 
     // merchandise = new User(document.getElementById("loginUsername").value, document.getElementById("loginPassword").value, "", "", "");
 
     fetch('Merchandise/GetMerchandise')
         .then(response => {
+            var itemarr = [];
             response.json().then(data => {
-                merchandise = new Merchandise(data.merchandise_Id, data.merchandise_Name, data.price, data.date_Added, data.brand, data.display_Active);
+                //alert("Number of items found is: " + data.length);
+                console.log(data);
+                //passing data directly here... can probably be moved
+                PopulateHomePage(data);
+
+                //merchandise = new Merchandise(data[0].merchandise_Id, data[0].merchandise_Name, data[0].price, data[0].date_Added, data[0].brand, data[0].display_Active);
             }).then(() => {
-                PopulateHomePage();
+                
             });
         })
         .catch(error => {
@@ -111,7 +119,7 @@ function AddMerchandise() {
 
 }
 
-function PopulateHomePage() {
+function PopulateHomePage(arr) {
 
     /*
         <div id="ProductClick" onclick="GoToDetailedItemPage()">
@@ -128,45 +136,54 @@ function PopulateHomePage() {
             </div>
         </div>
      */
+    //checking input array
+    console.log(arr);
+    //main div on page
+    let itemdiv = document.getElementById("items");
 
-    console.log(merchandise);
+    
+    //for each obj in array
+    for (var i = 0; i < arr.length; i++) {
+
+        //curent var for tracking item number
+        let current = i + 1;
+        //create merchandise object for current index
+        merchandise = new Merchandise(arr[i].merchandise_Id, arr[i].merchandise_Name, arr[i].price, arr[i].brand, arr[i].displayActive);
+        // Get the first product div
+        let div = document.getElementById("product" + current);
+
+        let mainDiv = document.createElement("div");
+        mainDiv.id = merchandise.Merchandise_Id;
+        mainDiv.addEventListener("click", function () {
+            GoToDetailedItemPage(merchandise);
+        });
+
+        let image = document.createElement("img");
+        image.className = "card-img-top";
+        image.src = "../img/" + merchandise.Merchandise_Id + ".png";
+        image.alt = "Comically Large Hat";
+
+        let detailsDiv = document.createElement("div");
+        detailsDiv.classList.add("card-body", "p-4");
+
+        let centerDiv = document.createElement("div");
+        centerDiv.className = "text-center";
 
 
-    // Get the first product div
-    let div = document.getElementById("product1");
+        let productTitle = document.createElement("h5");
+        productTitle.className = "fw-bolder";
+        productTitle.textContent = merchandise.Merchandise_Name;
 
-    let mainDiv = document.createElement("div");
-    mainDiv.id = merchandise.Merchandise_Id;
-    mainDiv.addEventListener("click", function () {
-        GoToDetailedItemPage(merchandise);
-    });
+        let price = document.createTextNode("$ " + merchandise.Price);
 
-    let image = document.createElement("img");
-    image.className = "card-img-top";
-    image.src = "../img/" + merchandise.Merchandise_Id + ".png";
-    image.alt = "Comically Large Hat";
+        centerDiv.appendChild(productTitle);
+        centerDiv.appendChild(price);
+        detailsDiv.appendChild(centerDiv);
+        mainDiv.appendChild(image);
+        mainDiv.appendChild(detailsDiv);
 
-    let detailsDiv = document.createElement("div");
-    detailsDiv.classList.add("card-body", "p-4");
-
-    let centerDiv = document.createElement("div");
-    centerDiv.className = "text-center";
-
-
-    let productTitle = document.createElement("h5");
-    productTitle.className = "fw-bolder";
-    productTitle.textContent = merchandise.Merchandise_Name;
-
-    let price = document.createTextNode("$ " + merchandise.Price);
-
-    centerDiv.appendChild(productTitle);
-    centerDiv.appendChild(price);
-    detailsDiv.appendChild(centerDiv);
-    mainDiv.appendChild(image);
-    mainDiv.appendChild(detailsDiv);
-
-    div.insertBefore(mainDiv, div.children[0]);
-
+        div.insertBefore(mainDiv, div.children[0]);
+    }
 }
 
 function GoToDetailedItemPage(merchandiseSelected) {
