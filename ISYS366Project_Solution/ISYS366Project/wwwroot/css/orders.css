@@ -83,12 +83,11 @@ label {
 
 .modal-list-item {
     display: list-item;
-    padding: 5px 10px;
-    margin-left: 200px;
+    margin-left: 400px;
 }
 
 .active-label {
-    margin-left: 100px;
+    margin-left: 0px;
     margin-right: 20px;
 }
 
