@@ -35,6 +35,23 @@ class Merchandise {
     }
 }
 
+//Uses variable page to determine which page to redirect
+//If the user is not an admin, it will not do anything
+function changeLocation(page) {
+    alert("Inside Change Location: " + page + ", User isAdmin: " + user.isAdmin);
+    if (user.isAdmin !== 'y') {
+        if (page === 'order') {
+            window.location.href = "order_management.html";
+        } else if (page === 'merchandise') {
+            window.location.href = "merchandise_management.html";
+        } else if (page === 'user') {
+            window.location.href = "user_management.html";
+        } else {
+            window.location.href = "homepage.html";
+        }
+    }
+}
+
 //#region Merchandise Management Screen Functions
 var merchandiseList = [];
 function GetAllMerchandise() {
