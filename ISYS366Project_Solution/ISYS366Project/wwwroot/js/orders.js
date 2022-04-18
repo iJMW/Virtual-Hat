@@ -201,7 +201,7 @@ function cancelDeleteModal() {
 }
 
 // Saves the details of the edited receipt in the dialog box
-function saveEdit() {
+function saveEditOrder() {
    
     // Iterate over each order in the current receipt being edited
     for (let i = 0; i < currentReceipt.orders.length; i++) {
@@ -241,6 +241,6 @@ function saveEdit() {
 }
 
 // Close the modal on cancel
-function cancelEdit() {
+function cancelEditOrder() {
     editModal.style.display = "none";
 }
