@@ -38,7 +38,6 @@ class Merchandise {
 //Uses variable page to determine which page to redirect
 //If the user is not an admin, it will not do anything
 function changeLocation(page) {
-    alert("Inside Change Location: " + page + ", User isAdmin: " + user.isAdmin);
     if (user.isAdmin === 'y') {
         if (page === 'order') {
             window.location.href = "order_management.html";
@@ -667,6 +666,8 @@ function AddUser() {
 }
 
 //#region Homepage Screen Functions
+
+
 let merchandise = JSON.parse(sessionStorage.getItem("merchandise"));
 var activeMerchandise = [];
 function GetMerchandise() {
@@ -674,7 +675,6 @@ function GetMerchandise() {
         document.getElementById("adminFunctions").style.display = "none";
     }
 
-    console.log("Inside get merchandise");
     fetch('Merchandise/GetActiveMerchandise')
         .then(response => {
             response.json().then(data => {
