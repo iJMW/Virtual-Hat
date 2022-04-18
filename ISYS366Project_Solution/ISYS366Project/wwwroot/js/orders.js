@@ -34,6 +34,11 @@ function GetReceipts() {
 
 // Populates the table with all the receipts
 function PopulateOrdersPage() {
+    // Set the number of items in the user's cart
+    if (cart == null) {
+        cart = [];
+    }
+    document.getElementById("cartSize").textContent = cart.length;
     //Get the table for populating
     let table = document.getElementById("ordersTable");
     // Iterate over each receipt

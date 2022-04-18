@@ -58,6 +58,12 @@ function GetAllMerchandise() {
 
 var currentMerchandise;
 function PopulateMerchandiseManagementTable() {
+    // Set the number of items in the user's cart
+    if (cart == null) {
+        cart = [];
+    }
+    document.getElementById("cartSize").textContent = cart.length;
+
     //Get the table for populating
     let table = document.getElementById("merchandiseTable");
     merchandiseList.forEach(merchandiseItem => {
@@ -367,6 +373,12 @@ function GetAllUsers() {
 
 var currentUser;
 function PopulateUserManagementTable() {
+    // Set the number of items in the user's cart
+    if (cart == null) {
+        cart = [];
+    }
+    document.getElementById("cartSize").textContent = cart.length;
+
     //Get the table for populating
     let table = document.getElementById("userTable");
     userList.forEach(userItem => {
@@ -716,6 +728,10 @@ function PopulateHomePage() {
         cartLink.classList.add("btn", "btn-outline-dark", "mt-auto");
         cartLink.href = "#";
         cartLink.textContent = "Add to Cart";
+        cartLink.addEventListener("click", () => {
+            merchandise = item;
+            addItemToCart();
+        });
 
         cartDivButton.appendChild(cartLink);
         cartFunction.appendChild(cartDivButton);
@@ -848,13 +864,21 @@ function populateCheckout() {
     checkoutList.appendChild(listItem);
 }
 
+
+
 function addItemToCart() {
     // Add the current merchandise to the cart
     if (cart == null) {
         cart = [];
     }
+
+    let quantity;
     // Get the quantity to be added to the cart
-    let quantity = document.getElementById("quantity").value;
+    if (document.getElementById("quantity")) {
+        quantity = document.getElementById("quantity").value;
+    } else {
+        quantity = 1;
+    }
     // Add the entered quantity of merchandise to the cart
     for (let i = 0; i < quantity; i++) {
         cart.push(merchandise);
