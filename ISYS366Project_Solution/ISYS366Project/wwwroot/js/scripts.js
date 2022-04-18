@@ -368,7 +368,6 @@ class Order {
 }
 //#endregion Merchandise Management Screen Functions
 
-
 //#region User Management Screen Functions
 
 var userList = [];
@@ -618,6 +617,7 @@ function cancelAdmin() {
 }
 //#endregion User Management Screen Functions
 
+//#region Login page Functions
 function GetUser() {
     console.log("Inside GetUser");
 
@@ -664,6 +664,7 @@ function AddUser() {
     .catch(error => console.error('Error: ', error));
 
 }
+//#endregion Login page Functions
 
 //#region Homepage Screen Functions
 
@@ -962,6 +963,8 @@ function addOrder() {
 }
 //#endregion Homepage Screen Functions
 
+//#region Base Bootstrap Javascript Functionality
+
 function setFormMessage(formElement, type, message) {
     const messageElement = formElement.querySelector(".form__message");
 
@@ -1022,3 +1025,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+//#endregion Base Bootstrap Javascript Functionality
