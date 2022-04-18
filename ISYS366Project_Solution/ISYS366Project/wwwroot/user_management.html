@@ -25,9 +25,14 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link" href="homepage.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="homepage.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="order_management.html">Order Management</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="merchandise_management.html">Merchandise Management</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">User Management</a></li>
+                    <li id="adminFunctions" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="order_management.html">Order Management</a></li>
+                            <li><a class="dropdown-item" href="merchandise_management.html">Merchandise Management</a></li>
+                            <li><a class="dropdown-item" href="user_management.html">User Management</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <button class="btn btn-outline-dark" onclick="GoToCheckout()">
                     <i class="bi-cart-fill me-1"></i>
@@ -60,13 +65,13 @@
                 <input type="text" id="username" disabled />
                 <br />
                 <label for="userEmail">Email: </label>
-                <input type="email" id="userEmail" required/>
+                <input type="email" id="userEmail" required />
                 <br />
                 <label for="userFirstName">First Name: </label>
                 <input type="text" id="userFirstName" required />
                 <br />
                 <label for="userLastName">Last Name: </label>
-                <input type="text" id="userLastName" required/>
+                <input type="text" id="userLastName" required />
                 <br />
                 <label for="isAdmin">Admin: </label>
                 <input id="isAdmin" type="checkbox" checked disabled />
@@ -98,6 +103,8 @@
             </form>
         </div>
     </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/user_management.js"></script>
     <script src="js/scripts.js"></script>
 </body>
