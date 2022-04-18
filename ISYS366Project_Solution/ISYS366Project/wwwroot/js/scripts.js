@@ -6,6 +6,8 @@
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
 
+let user = JSON.parse(sessionStorage.getItem("user"));
+
 class User{
     constructor(username, password, email, firstName, lastName, isAdmin){
         this.Username = username;
@@ -325,6 +327,19 @@ function cancelNewModal() {
     newMerchandiseModal.style.display = "none";
 }
 
+let cart = JSON.parse(sessionStorage.getItem("cart"));
+
+class Order {
+    constructor(orderId, dateOrdered, total, address, placedBy, merchandiseId, displayActive) {
+        this.Order_Id = orderId;
+        this.Date_Ordered = dateOrdered;
+        this.Total = total;
+        this.Address = address;
+        this.Placed_By = placedBy;
+        this.Merchandise_Id = merchandiseId;
+        this.Display_Active = displayActive;
+    }
+}
 //#endregion Merchandise Management Screen Functions
 
 
@@ -584,8 +599,10 @@ function GetUser() {
             response.json().then(data => {
                 let verifiedUser = data;
                 console.log(JSON.stringify(verifiedUser));
+                sessionStorage.setItem("user", JSON.stringify(verifiedUser));
+                window.location.href = "../homepage.html";
             });
-            window.location.href = "../homepage.html";
+            // window.location.href = "../homepage.html";
         } else {
             alert("Incorrect Credentials");
         }
@@ -670,6 +687,12 @@ function PopulateHomePage() {
         let detailsDiv = document.createElement("div");
         detailsDiv.classList.add("card-body", "p-4");
 
+    // Set the number of items in the user's cart
+    if (cart == null) {
+        cart = [];
+    }
+    document.getElementById("cartSize").textContent = cart.length;
+      
         //Containers to center the information
         let centerDiv = document.createElement("div");
         centerDiv.className = "text-center";
@@ -718,22 +741,173 @@ function PopulateHomePage() {
 
 function GoToDetailedItemPage(merchandiseSelected) {
     sessionStorage.setItem("merchandise", JSON.stringify(merchandiseSelected));
+    sessionStorage.setItem("user", JSON.stringify(user));
 
     window.location.href = "../shopitem.html";
 
 }
 
 function populateDetails() {
+    // Set the number of items in the user's cart
+    if (cart == null) {
+        cart = [];
+    }
+    document.getElementById("cartSize").textContent = cart.length;
+    console.log(cart.length);
     console.log(merchandise);
+
     document.getElementById("image").src = "../img/" + merchandise.Merchandise_Id + "_Large.png";
     document.getElementById("name").textContent = merchandise.Merchandise_Name;
     document.getElementById("price").textContent = "$ " + merchandise.Price;
     document.getElementById("description").textContent = "Description goes here";
 }
 
+function GoToCheckout() {
+    // Store the user
+    sessionStorage.setItem("user", JSON.stringify(user));
+    // Store the cart in the session storage
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+    // Navigate to the checkout page
+    window.location.href = "../checkout.html";
+}
+
+function populateCheckout() {
+
+    // Set the number of items in the user's cart
+    if (cart == null) {
+        cart = [];
+    }
+    document.getElementById("cartSize").textContent = cart.length;
+    console.log(cart.length);
+
+    // Will store the total price
+    let total = 0.0;
+
+    // Get the unordered list
+    let checkoutList = document.getElementById("checkoutList");
+
+    // Iterate over each item in the cart
+    for (let i = 0; i < cart.length; i++) {
+
+        // Create a list item tag
+        let listItem = document.createElement("li");
+        listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "lh-condensed");
+
+        // Create a div
+        let nameDescDiv = document.createElement("div");
+
+        // Create a header for the product name
+        let productTitle = document.createElement("h6");
+        productTitle.className = "my-0";
+        productTitle.textContent = cart[i].Merchandise_Name;
+
+        // Create a small tag for the description of the product
+        let description = document.createElement("small");
+        description.className = "text-muted";
+        description.textContent = "Brief Description"
+
+        // Create a span for the price
+        let price = document.createElement("span");
+        price.className = "text-muted";
+        price.textContent= "$ " + cart[i].Price;
+
+        // Append all the items
+        nameDescDiv.appendChild(productTitle);
+        nameDescDiv.appendChild(description);
+        listItem.appendChild(nameDescDiv);
+        listItem.appendChild(price);
+        checkoutList.appendChild(listItem);
+
+        // Update the total
+        total += parseFloat(cart[i].Price);
+
+    }
+
+    // Add the total value
+    let listItem = document.createElement("li");
+    listItem.classList.add("list-group-item", "d-flex", "justify-content-between");
+
+    // Create a span for the currency
+    let currency = document.createElement("span");
+    currency.textContent = "Total (USD)";
+
+    // Create a strong tag for the totalAmt
+    let totalAmt = document.createElement("strong");
+    totalAmt.textContent = "$ " + total;
+
+    // Set the values of shipping information based on user account
+    document.getElementById("firstName").value = user.first_Name;
+    document.getElementById("lastName").value = user.last_Name;
+    document.getElementById("username").value = user.username;
+    document.getElementById("email").value = user.email;
+
+
+    // Append the total
+    listItem.appendChild(currency);
+    listItem.appendChild(totalAmt);
+    checkoutList.appendChild(listItem);
+}
+
+function addItemToCart() {
+    // Add the current merchandise to the cart
+    if (cart == null) {
+        cart = [];
+    }
+    // Get the quantity to be added to the cart
+    let quantity = document.getElementById("quantity").value;
+    // Add the entered quantity of merchandise to the cart
+    for (let i = 0; i < quantity; i++) {
+        cart.push(merchandise);
+        // Print that the item was added to the cart
+        console.log("Item was added to cart!");
+    }
+    // Store the cart in the session storage
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+    // Update the cart size
+    document.getElementById("cartSize").textContent = cart.length;
+    console.log(cart.length);
+}
+
+function addOrder() {
+
+    // Create the address string entered by the user
+    let address = document.getElementById("address").value.trim() + " "
+        + document.getElementById("state").value.trim() + " "
+        + document.getElementById("country").value.trim() + " "
+        + document.getElementById("zip").value.trim();
+
+    // Stores the current date AKA the date the order was placed
+    let dateOrdered = new Date();
+
+    // Iterate over each element in the cart
+    for (let i = 0; i < cart.length; i++) {
+
+        // Create a new order for each item in the cart
+        let order = new Order(0, dateOrdered, cart[i].Price, address, user.username, cart[i].Merchandise_Id, "Y");
+
+        // Call the AddOrder function in OrdersController
+        fetch('Orders/AddOrder', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(order),
+        })
+        .catch(error => console.error('Error: ', error));
+
+    }
+
+    // Store the cart in the session storage; empty the cart
+    sessionStorage.setItem("cart", JSON.stringify([]));
+
+
+    // Navigate the user back to the homepage
+    sessionStorage.setItem("user", JSON.stringify(user));
+    window.location.href = "../homepage.html";
+
+}
 //#endregion Homepage Screen Functions
-
-
 
 function setFormMessage(formElement, type, message) {
     const messageElement = formElement.querySelector(".form__message");
