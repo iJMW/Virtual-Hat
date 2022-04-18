@@ -38,22 +38,26 @@ class Merchandise {
 //#region Merchandise Management Screen Functions
 var merchandiseList = [];
 function GetAllMerchandise() {
-    fetch('Merchandise/GetAllMerchandise')
-        .then(response => {
-            response.json().then(data => {
-                data.forEach(item => {
-                    //Add a merchanise object using the item's data
-                    merchandiseList.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
+    if (user.isAdmin !== 'y') {
+        document.getElementById("adminFunctions").style.display = "none";
+    } else {
+        fetch('Merchandise/GetAllMerchandise')
+            .then(response => {
+                response.json().then(data => {
+                    data.forEach(item => {
+                        //Add a merchanise object using the item's data
+                        merchandiseList.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
+                    });
+                }).then(() => {
+                    //Populate the merchandise management table
+                    PopulateMerchandiseManagementTable();
                 });
-            }).then(() => {
-                //Populate the merchandise management table
-                PopulateMerchandiseManagementTable();
+            })
+            .catch(error => {
+                //Display the error to the console
+                console.log(error);
             });
-        })
-        .catch(error => {
-            //Display the error to the console
-            console.log(error);
-        });
+    }
 }
 
 var currentMerchandise;
@@ -353,22 +357,27 @@ class Order {
 
 var userList = [];
 function GetAllUsers() {
-    fetch('UserManagement/GetAllUsers')
-        .then(response => {
-            response.json().then(data => {
-                data.forEach(item => {
-                    //Add a merchanise object using the item's data
-                    userList.push(new User(item.username, "", item.email, item.first_Name, item.last_Name, item.isAdmin));
+    if (user.isAdmin !== 'y') {
+        document.getElementById("adminFunctions").style.display = "none";
+    } else {
+        fetch('UserManagement/GetAllUsers')
+            .then(response => {
+                response.json().then(data => {
+                    data.forEach(item => {
+                        //Add a merchanise object using the item's data
+                        userList.push(new User(item.username, "", item.email, item.first_Name, item.last_Name, item.isAdmin));
+                    });
+                }).then(() => {
+                    //Populate the merchandise management table
+                    PopulateUserManagementTable();
                 });
-            }).then(() => {
-                //Populate the merchandise management table
-                PopulateUserManagementTable();
+            })
+            .catch(error => {
+                //Display the error to the console
+                console.log(error);
             });
-        })
-        .catch(error => {
-            //Display the error to the console
-            console.log(error);
-        });
+    }
+    
 }
 
 var currentUser;
@@ -614,7 +623,6 @@ function GetUser() {
                 sessionStorage.setItem("user", JSON.stringify(verifiedUser));
                 window.location.href = "../homepage.html";
             });
-            // window.location.href = "../homepage.html";
         } else {
             alert("Incorrect Credentials");
         }
@@ -645,6 +653,10 @@ function AddUser() {
 let merchandise = JSON.parse(sessionStorage.getItem("merchandise"));
 var activeMerchandise = [];
 function GetMerchandise() {
+    if (user.isAdmin !== 'y') {
+        document.getElementById("adminFunctions").style.display = "none";
+    }
+
     console.log("Inside get merchandise");
     fetch('Merchandise/GetActiveMerchandise')
         .then(response => {

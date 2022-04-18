@@ -196,6 +196,8 @@ namespace ISYS366Project.Controllers
                 returnedUser.First_Name = reader.GetString(3);
                 //Last Name is fifth
                 returnedUser.Last_Name = reader.GetString(4);
+                //ADmin is sixth
+                returnedUser.isAdmin = reader.GetString(5);
 
 
                 return returnedUser;
