@@ -39,7 +39,7 @@ class Merchandise {
 //If the user is not an admin, it will not do anything
 function changeLocation(page) {
     alert("Inside Change Location: " + page + ", User isAdmin: " + user.isAdmin);
-    if (user.isAdmin !== 'y') {
+    if (user.isAdmin === 'y') {
         if (page === 'order') {
             window.location.href = "order_management.html";
         } else if (page === 'merchandise') {
