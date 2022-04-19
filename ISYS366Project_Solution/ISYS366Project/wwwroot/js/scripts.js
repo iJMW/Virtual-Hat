@@ -837,7 +837,11 @@ function GoToCheckout() {
     // Store the cart in the session storage
     sessionStorage.setItem("cart", JSON.stringify(cart));
     // Navigate to the checkout page
-    window.location.href = "../checkout.html";
+    if (cart.length !== 0) {
+        window.location.href = "../checkout.html";
+    } else {
+        alert("Cart is empty");
+    }
 }
 
 function populateCheckout() {
