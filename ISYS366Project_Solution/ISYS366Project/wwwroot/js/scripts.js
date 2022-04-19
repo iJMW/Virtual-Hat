@@ -810,6 +810,10 @@ function GoToDetailedItemPage(merchandiseSelected) {
 
 function populateDetails() {
     if (user !== null) {
+        if (user.isAdmin !== 'y') {
+            document.getElementById("adminFunctions").style.display = "none";
+        }
+
         // Set the number of items in the user's cart
         if (cart == null) {
             cart = [];
@@ -839,6 +843,9 @@ function GoToCheckout() {
 function populateCheckout() {
 
     if (user !== null) {
+        if (user.isAdmin !== 'y') {
+            document.getElementById("adminFunctions").style.display = "none";
+        }
 
         // Set the number of items in the user's cart
         if (cart == null) {
