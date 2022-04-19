@@ -22,6 +22,7 @@ let currentReceipt;
 function GetReceipts() {
     if (user.isAdmin !== 'y') {
         document.getElementById("adminFunctions").style.display = "none";
+        window.location.href = "homepage.html";
     } else {
         fetch('Orders/GetReceipts')
             .then(response => {

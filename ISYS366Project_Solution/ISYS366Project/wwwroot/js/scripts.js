@@ -56,6 +56,7 @@ var merchandiseList = [];
 function GetAllMerchandise() {
     if (user.isAdmin !== 'y') {
         document.getElementById("adminFunctions").style.display = "none";
+        window.location.href = "homepage.html";
     } else {
         fetch('Merchandise/GetAllMerchandise')
             .then(response => {
@@ -374,6 +375,7 @@ var userList = [];
 function GetAllUsers() {
     if (user.isAdmin !== 'y') {
         document.getElementById("adminFunctions").style.display = "none";
+        window.location.href = "homepage.html";
     } else {
         fetch('UserManagement/GetAllUsers')
             .then(response => {
