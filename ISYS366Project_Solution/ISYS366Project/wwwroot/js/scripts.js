@@ -594,7 +594,6 @@ function cancelAdmin() {
 //#endregion User Management Screen Functions
 
 function GetUser() {
-    console.log("Inside GetUser");
 
     let user = new User(document.getElementById("loginUsername").value, document.getElementById("loginPassword").value, "", "", "", "");
 
@@ -753,6 +752,9 @@ function PopulateHomePage() {
         //Append the item details to the page
         allProducts.appendChild(productContainer);
     });
+
+    console.log(user);
+
 }
 
 function GoToDetailedItemPage(merchandiseSelected) {
@@ -864,8 +866,6 @@ function populateCheckout() {
     checkoutList.appendChild(listItem);
 }
 
-
-
 function addItemToCart() {
     // Add the current merchandise to the cart
     if (cart == null) {
@@ -949,6 +949,13 @@ function setInputError(inputElement, message) {
 function clearInputError(inputElement) {
     inputElement.classList.remove("form__input--error");
     inputElement.parentElement.querySelector(".form__input-error-message").textContent = "";
+}
+
+function Logout() {
+    // Clear the session storage
+    sessionStorage.clear();
+    // Go back to the login page
+    window.location.href = "index.html"
 }
 
 document.addEventListener("DOMContentLoaded", () => {

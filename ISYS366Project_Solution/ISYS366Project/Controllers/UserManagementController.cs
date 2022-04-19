@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using System.Text;
 
 namespace ISYS366Project.Controllers
 {
@@ -168,13 +170,21 @@ namespace ISYS366Project.Controllers
         [Route("GetUser")]
         public User GetUser([FromBody]User user)
         {
+            // Hash the user password to store in the database
+            string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: user.User_Password,
+            salt: Encoding.ASCII.GetBytes(user.Username),
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
             //Open the database connection
             connection.Open();
             //Create a new MySQL command
             MySqlCommand command = connection.CreateCommand();
             //Add the parameters to the command
             command.Parameters.AddWithValue("@username", user.Username);
-            command.Parameters.AddWithValue("@password", user.User_Password);
+            command.Parameters.AddWithValue("@password", hashedPassword);
             //The query/action to be performed
             command.CommandText = @"SELECT *
                                     FROM USERS
@@ -215,9 +225,18 @@ namespace ISYS366Project.Controllers
             connection.Open();
             // Create the MySQL command to be executed
             MySqlCommand command = connection.CreateCommand();
+
+            // Hash the user password to store in the database
+            string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: user.User_Password,
+            salt: Encoding.ASCII.GetBytes(user.Username),
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
             // Add the parameters to the command
             command.Parameters.AddWithValue("@username", user.Username);
-            command.Parameters.AddWithValue("@password", user.User_Password);
+            command.Parameters.AddWithValue("@password", hashedPassword);
             command.Parameters.AddWithValue("@email", user.Email);
             command.Parameters.AddWithValue("@first", user.First_Name);
             command.Parameters.AddWithValue("@last", user.Last_Name);
