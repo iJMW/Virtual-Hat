@@ -20,20 +20,26 @@ let currentReceipt;
 
 // Gets all the receipts
 function GetReceipts() {
-    if (user.isAdmin !== 'y') {
-        document.getElementById("adminFunctions").style.display = "none";
-        window.location.href = "homepage.html";
-    } else {
-        fetch('Orders/GetReceipts')
-            .then(response => {
-                response.json().then(data => {
-                    receiptList = data;
-                    PopulateOrdersPage();
+
+    if (user !== null) {
+
+        if (user.isAdmin !== 'y') {
+            document.getElementById("adminFunctions").style.display = "none";
+            window.location.href = "homepage.html";
+        } else {
+            fetch('Orders/GetReceipts')
+                .then(response => {
+                    response.json().then(data => {
+                        receiptList = data;
+                        PopulateOrdersPage();
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
                 });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        }
+    } else {
+        window.location.href = "index.html"
     }
 }
 

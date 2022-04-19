@@ -54,26 +54,30 @@ function changeLocation(page) {
 //#region Merchandise Management Screen Functions
 var merchandiseList = [];
 function GetAllMerchandise() {
-    if (user.isAdmin !== 'y') {
-        document.getElementById("adminFunctions").style.display = "none";
-        window.location.href = "homepage.html";
-    } else {
-        fetch('Merchandise/GetAllMerchandise')
-            .then(response => {
-                response.json().then(data => {
-                    data.forEach(item => {
-                        //Add a merchanise object using the item's data
-                        merchandiseList.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
+    if (user !== null) {
+        if (user.isAdmin !== 'y') {
+            document.getElementById("adminFunctions").style.display = "none";
+            window.location.href = "homepage.html";
+        } else {
+            fetch('Merchandise/GetAllMerchandise')
+                .then(response => {
+                    response.json().then(data => {
+                        data.forEach(item => {
+                            //Add a merchanise object using the item's data
+                            merchandiseList.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
+                        });
+                    }).then(() => {
+                        //Populate the merchandise management table
+                        PopulateMerchandiseManagementTable();
                     });
-                }).then(() => {
-                    //Populate the merchandise management table
-                    PopulateMerchandiseManagementTable();
+                })
+                .catch(error => {
+                    //Display the error to the console
+                    console.log(error);
                 });
-            })
-            .catch(error => {
-                //Display the error to the console
-                console.log(error);
-            });
+        }
+    } else {
+        window.location.href = "index.html";
     }
 }
 
@@ -373,28 +377,31 @@ class Order {
 
 var userList = [];
 function GetAllUsers() {
-    if (user.isAdmin !== 'y') {
-        document.getElementById("adminFunctions").style.display = "none";
-        window.location.href = "homepage.html";
-    } else {
-        fetch('UserManagement/GetAllUsers')
-            .then(response => {
-                response.json().then(data => {
-                    data.forEach(item => {
-                        //Add a merchanise object using the item's data
-                        userList.push(new User(item.username, "", item.email, item.first_Name, item.last_Name, item.isAdmin));
+    if (user !== null) {
+        if (user.isAdmin !== 'y') {
+            document.getElementById("adminFunctions").style.display = "none";
+            window.location.href = "homepage.html";
+        } else {
+            fetch('UserManagement/GetAllUsers')
+                .then(response => {
+                    response.json().then(data => {
+                        data.forEach(item => {
+                            //Add a merchanise object using the item's data
+                            userList.push(new User(item.username, "", item.email, item.first_Name, item.last_Name, item.isAdmin));
+                        });
+                    }).then(() => {
+                        //Populate the merchandise management table
+                        PopulateUserManagementTable();
                     });
-                }).then(() => {
-                    //Populate the merchandise management table
-                    PopulateUserManagementTable();
+                })
+                .catch(error => {
+                    //Display the error to the console
+                    console.log(error);
                 });
-            })
-            .catch(error => {
-                //Display the error to the console
-                console.log(error);
-            });
+        }
+    } else {
+        window.location.href = "index.html";
     }
-    
 }
 
 var currentUser;
@@ -673,28 +680,32 @@ function AddUser() {
 let merchandise = JSON.parse(sessionStorage.getItem("merchandise"));
 var activeMerchandise = [];
 function GetMerchandise() {
-    if (user.isAdmin !== 'y') {
-        document.getElementById("adminFunctions").style.display = "none";
-    }
 
-    fetch('Merchandise/GetActiveMerchandise')
-        .then(response => {
-            response.json().then(data => {
-                data.forEach(item => {
-                    //Add a merchanise object using the item's data
-                    activeMerchandise.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
+    if (user !== null) {
+        if (user.isAdmin !== 'y') {
+            document.getElementById("adminFunctions").style.display = "none";
+        }
+
+        fetch('Merchandise/GetActiveMerchandise')
+            .then(response => {
+                response.json().then(data => {
+                    data.forEach(item => {
+                        //Add a merchanise object using the item's data
+                        activeMerchandise.push(new Merchandise(item.merchandise_Id, item.merchandise_Name, item.price, item.date_Added, item.brand, item.display_Active));
+                    });
+                }).then(() => {
+                    //Populate the merchandise management table
+                    PopulateHomePage();
                 });
-            }).then(() => {
-                //Populate the merchandise management table
-                PopulateHomePage();
-            });
-            
-        })
-        .catch(error => {
-            //Display the error to the console
-            console.log(error);
-        });
 
+            })
+            .catch(error => {
+                //Display the error to the console
+                console.log(error);
+            });
+    } else {
+        window.location.href = "index.html"
+    }
 }
 
 function PopulateHomePage() {
@@ -798,18 +809,22 @@ function GoToDetailedItemPage(merchandiseSelected) {
 }
 
 function populateDetails() {
-    // Set the number of items in the user's cart
-    if (cart == null) {
-        cart = [];
-    }
-    document.getElementById("cartSize").textContent = cart.length;
-    console.log(cart.length);
-    console.log(merchandise);
+    if (user !== null) {
+        // Set the number of items in the user's cart
+        if (cart == null) {
+            cart = [];
+        }
+        document.getElementById("cartSize").textContent = cart.length;
+        console.log(cart.length);
+        console.log(merchandise);
 
-    document.getElementById("image").src = "../img/" + merchandise.Merchandise_Id + "_Large.png";
-    document.getElementById("name").textContent = merchandise.Merchandise_Name;
-    document.getElementById("price").textContent = "$ " + merchandise.Price;
-    document.getElementById("description").textContent = "Description goes here";
+        document.getElementById("image").src = "../img/" + merchandise.Merchandise_Id + "_Large.png";
+        document.getElementById("name").textContent = merchandise.Merchandise_Name;
+        document.getElementById("price").textContent = "$ " + merchandise.Price;
+        document.getElementById("description").textContent = "Description goes here";
+    } else {
+        window.location.href = "index.html"
+    }
 }
 
 function GoToCheckout() {
@@ -823,79 +838,84 @@ function GoToCheckout() {
 
 function populateCheckout() {
 
-    // Set the number of items in the user's cart
-    if (cart == null) {
-        cart = [];
-    }
-    document.getElementById("cartSize").textContent = cart.length;
-    console.log(cart.length);
+    if (user !== null) {
 
-    // Will store the total price
-    let total = 0.0;
+        // Set the number of items in the user's cart
+        if (cart == null) {
+            cart = [];
+        }
+        document.getElementById("cartSize").textContent = cart.length;
+        console.log(cart.length);
 
-    // Get the unordered list
-    let checkoutList = document.getElementById("checkoutList");
+        // Will store the total price
+        let total = 0.0;
 
-    // Iterate over each item in the cart
-    for (let i = 0; i < cart.length; i++) {
+        // Get the unordered list
+        let checkoutList = document.getElementById("checkoutList");
 
-        // Create a list item tag
+        // Iterate over each item in the cart
+        for (let i = 0; i < cart.length; i++) {
+
+            // Create a list item tag
+            let listItem = document.createElement("li");
+            listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "lh-condensed");
+
+            // Create a div
+            let nameDescDiv = document.createElement("div");
+
+            // Create a header for the product name
+            let productTitle = document.createElement("h6");
+            productTitle.className = "my-0";
+            productTitle.textContent = cart[i].Merchandise_Name;
+
+            // Create a small tag for the description of the product
+            let description = document.createElement("small");
+            description.className = "text-muted";
+            description.textContent = "Brief Description"
+
+            // Create a span for the price
+            let price = document.createElement("span");
+            price.className = "text-muted";
+            price.textContent = "$ " + cart[i].Price;
+
+            // Append all the items
+            nameDescDiv.appendChild(productTitle);
+            nameDescDiv.appendChild(description);
+            listItem.appendChild(nameDescDiv);
+            listItem.appendChild(price);
+            checkoutList.appendChild(listItem);
+
+            // Update the total
+            total += parseFloat(cart[i].Price);
+
+        }
+
+        // Add the total value
         let listItem = document.createElement("li");
-        listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "lh-condensed");
+        listItem.classList.add("list-group-item", "d-flex", "justify-content-between");
 
-        // Create a div
-        let nameDescDiv = document.createElement("div");
+        // Create a span for the currency
+        let currency = document.createElement("span");
+        currency.textContent = "Total (USD)";
 
-        // Create a header for the product name
-        let productTitle = document.createElement("h6");
-        productTitle.className = "my-0";
-        productTitle.textContent = cart[i].Merchandise_Name;
+        // Create a strong tag for the totalAmt
+        let totalAmt = document.createElement("strong");
+        totalAmt.textContent = "$ " + total;
 
-        // Create a small tag for the description of the product
-        let description = document.createElement("small");
-        description.className = "text-muted";
-        description.textContent = "Brief Description"
+        // Set the values of shipping information based on user account
+        document.getElementById("firstName").value = user.first_Name;
+        document.getElementById("lastName").value = user.last_Name;
+        document.getElementById("username").value = user.username;
+        document.getElementById("email").value = user.email;
 
-        // Create a span for the price
-        let price = document.createElement("span");
-        price.className = "text-muted";
-        price.textContent= "$ " + cart[i].Price;
 
-        // Append all the items
-        nameDescDiv.appendChild(productTitle);
-        nameDescDiv.appendChild(description);
-        listItem.appendChild(nameDescDiv);
-        listItem.appendChild(price);
+        // Append the total
+        listItem.appendChild(currency);
+        listItem.appendChild(totalAmt);
         checkoutList.appendChild(listItem);
-
-        // Update the total
-        total += parseFloat(cart[i].Price);
-
+    } else {
+        window.location.href = "index.html";
     }
-
-    // Add the total value
-    let listItem = document.createElement("li");
-    listItem.classList.add("list-group-item", "d-flex", "justify-content-between");
-
-    // Create a span for the currency
-    let currency = document.createElement("span");
-    currency.textContent = "Total (USD)";
-
-    // Create a strong tag for the totalAmt
-    let totalAmt = document.createElement("strong");
-    totalAmt.textContent = "$ " + total;
-
-    // Set the values of shipping information based on user account
-    document.getElementById("firstName").value = user.first_Name;
-    document.getElementById("lastName").value = user.last_Name;
-    document.getElementById("username").value = user.username;
-    document.getElementById("email").value = user.email;
-
-
-    // Append the total
-    listItem.appendChild(currency);
-    listItem.appendChild(totalAmt);
-    checkoutList.appendChild(listItem);
 }
 
 function addItemToCart() {
@@ -990,6 +1010,11 @@ function Logout() {
     sessionStorage.clear();
     // Go back to the login page
     window.location.href = "index.html"
+}
+
+function clearStorage() {
+    // Clear the session storage
+    sessionStorage.clear();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
