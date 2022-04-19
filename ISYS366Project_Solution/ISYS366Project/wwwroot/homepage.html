@@ -24,9 +24,15 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="order_management.html">Order Management</a></li>
-                        <li class="nav-item"><a class="nav-link" href="merchandise_management.html">Merchandise Management</a></li>
-                        <li class="nav-item"><a class="nav-link" href="user_management.html">User Management</a></li>
+
+                        <li id="adminFunctions" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="javascript:changeLocation('order')">Order Management</a></li>
+                                <li><a class="dropdown-item" href="javascript:changeLocation('merchandise')">Merchandise Management</a></li>
+                                <li><a class="dropdown-item" href="javascript:changeLocation('user')">User Management</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <!-- <form class="d-flex" onsubmit="return GoToCheckout()"> -->
                     <button class="btn btn-outline-dark" onclick="GoToCheckout()">

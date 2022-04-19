@@ -27,9 +27,14 @@
                     <li class="nav-item"><a class="nav-link" href="homepage.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="homepage.html">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Shop Item</a></li>
-                    <li class="nav-item"><a class="nav-link" href="order_management.html">Order Management</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Merchandise Management</a></li>
-                    <li class="nav-item"><a class="nav-link" href="user_management.html">User Management</a></li>
+                    <li id="adminFunctions" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="order_management.html">Order Management</a></li>
+                            <li><a class="dropdown-item" href="merchandise_management.html">Merchandise Management</a></li>
+                            <li><a class="dropdown-item" href="user_management.html">User Management</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <button class="btn btn-outline-dark" onclick="GoToCheckout()">
                     <i class="bi-cart-fill me-1"></i>

@@ -25,9 +25,14 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link" href="homepage.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="homepage.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="order_management.html">Order Management</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Merchandise Management</a></li>
-                    <li class="nav-item"><a class="nav-link" href="user_management.html">User Management</a></li>
+                    <li id="adminFunctions" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="javascript:changeLocation('order')">Order Management</a></li>
+                            <li><a class="dropdown-item" href="javascript:changeLocation('merchandise')">Merchandise Management</a></li>
+                            <li><a class="dropdown-item" href="javascript:changeLocation('user')">User Management</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <button class="btn btn-outline-dark" onclick="GoToCheckout()">
                     <i class="bi-cart-fill me-1"></i>
@@ -60,13 +65,13 @@
             <span class="close" id="closeIndicatorNew">&times;</span>
             <form>
                 <label for="merchandiseName">Name: </label>
-                <input type="text" id="merchandiseName" required/>
+                <input type="text" id="merchandiseName" required />
                 <br />
                 <label for="merchandisePrice">Price: </label>
-                <input type="text" id="merchandisePrice" required/>
+                <input type="text" id="merchandisePrice" required />
                 <br />
                 <label for="merchandiseBrand">Brand: </label>
-                <input type="text" id="merchandiseBrand" required/>
+                <input type="text" id="merchandiseBrand" required />
                 <br />
                 <label for="activeInd">Active: </label>
                 <select id="activeInd" required>
@@ -88,10 +93,10 @@
             <span class="close" id="closeIndicator">&times;</span>
             <form>
                 <label for="editMerchandiseName">Name: </label>
-                <input type="text" id="editMerchandiseName" required/>
+                <input type="text" id="editMerchandiseName" required />
                 <br />
                 <label for="editMerchandisePrice">Price: </label>
-                <input type="text" id="editMerchandisePrice" required/>
+                <input type="text" id="editMerchandisePrice" required />
                 <br />
                 <label for="editMerchandiseBrand">Brand: </label>
                 <input type="text" id="editMerchandiseBrand" required />
@@ -126,6 +131,8 @@
             </form>
         </div>
     </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/merchandise.js"></script>
     <script src="js/scripts.js"></script>
 </body>
