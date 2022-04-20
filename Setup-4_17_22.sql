@@ -34,14 +34,3 @@ CREATE TABLE Orders (
     FOREIGN KEY (Placed_By) REFERENCES Users(username),
     FOREIGN KEY (Merchandise_Id) REFERENCES Merchandise(Merchandise_Id)
 );
-
-CREATE TABLE Reviews (
-	Review_Id int NOT NULL AUTO_INCREMENT,
-    Merchandise_Id int,
-    Reviewed_By varchar(100) BINARY,
-    Rating int,
-    User_Comment varchar(250),
-    PRIMARY KEY (Review_Id),
-    FOREIGN KEY (Merchandise_Id) REFERENCES Merchandise(Merchandise_Id),
-    FOREIGN KEY (Reviewed_By) REFERENCES Users(username)
-);
