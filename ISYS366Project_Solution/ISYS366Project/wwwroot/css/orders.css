@@ -91,4 +91,10 @@ label {
     margin-right: 20px;
 }
 
+.modal-table {
+    border: none;
+    border-collapse: separate;
+    width: 1%;
+    white-space: nowrap;
+}
 

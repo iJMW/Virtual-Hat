@@ -119,18 +119,33 @@ function PopulateOrdersPage() {
 
             let total = 0.0;
 
+            // create a table
+            let orderTable = document.createElement("table");
+            orderTable.className = "modal-table"
+
             // Iterate over each receipt in the order
             for (let i = 0; i < currentReceipt.orders.length; i++) {
 
-                // Create a list item for the name of the merchandise in the order
-                orderItem = document.createElement("li");
-                orderItem.className = "modal-list-item";
+                // Create a row in the table
+                let tr = orderTable.insertRow();
 
-                // Create an active check mark that will let the user activate and deactivate specific items of the order
+                // Create a column for the name of the order item
+                let nametd = tr.insertCell();
+                nametd.style = "padding-right:20px";
+                // Append the order's name to the column
+                nametd.appendChild(document.createTextNode(currentReceipt.order_names[i]));
+
+                // Create active label
                 activeLabel = document.createElement("Label");
                 activeLabel.setAttribute("for", 'checkbox');
                 activeLabel.innerHTML = "Active: ";
                 activeLabel.className = "active-label"
+                let activeLabelTd = tr.insertCell();
+                activeLabelTd.style = "padding - right: 20px"
+                // Append the active label to the column
+                activeLabelTd.appendChild(activeLabel);
+
+                // Create an active checkmark
                 activeCheck = document.createElement("INPUT");
                 activeCheck.setAttribute("type", "checkbox");
                 activeCheck.setAttribute("id", currentReceipt.orders[i].order_Id + '_active');
@@ -138,17 +153,15 @@ function PopulateOrdersPage() {
                     activeCheck.checked = true;
                     total += parseFloat(currentReceipt.orders[i].total);
                 }
+                let activeCbTd = tr.insertCell();
+                // Append the checkbox to the column
+                activeCbTd.appendChild(activeCheck);
 
-                // Append
-                orderItem.appendChild(document.createTextNode(currentReceipt.order_names[i]));
-                orderItem.appendChild(activeLabel);
-                orderItem.appendChild(activeCheck);
-                itemList.appendChild(orderItem);
             }
 
-            totalInput.value = "$" + total;
+            totalInput.value = "$" + total.toFixed(2);
 
-
+            itemList.appendChild(orderTable);
 
             //Set modal form to be viewable
             editModal.style.display = "block";

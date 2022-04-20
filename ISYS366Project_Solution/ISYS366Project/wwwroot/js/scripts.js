@@ -837,7 +837,11 @@ function GoToCheckout() {
     // Store the cart in the session storage
     sessionStorage.setItem("cart", JSON.stringify(cart));
     // Navigate to the checkout page
-    window.location.href = "../checkout.html";
+    if (cart.length !== 0) {
+        window.location.href = "../checkout.html";
+    } else {
+        alert("Cart is empty");
+    }
 }
 
 function populateCheckout() {
@@ -907,7 +911,7 @@ function populateCheckout() {
 
         // Create a strong tag for the totalAmt
         let totalAmt = document.createElement("strong");
-        totalAmt.textContent = "$ " + total;
+        totalAmt.textContent = "$ " + total.toFixed(2);
 
         // Set the values of shipping information based on user account
         document.getElementById("firstName").value = user.first_Name;
@@ -953,41 +957,48 @@ function addItemToCart() {
 
 function addOrder() {
 
-    // Create the address string entered by the user
-    let address = document.getElementById("address").value.trim() + " "
-        + document.getElementById("state").value.trim() + " "
-        + document.getElementById("country").value.trim() + " "
-        + document.getElementById("zip").value.trim();
+    if (document.getElementById("address").value.trim() === "" || document.getElementById("state").value.trim() === "" || document.getElementById("country").value.trim() === ""
+        || document.getElementById("zip").value.trim() === "") {
+        alert("Missing Fields")
+    } else {
 
-    // Stores the current date AKA the date the order was placed
-    let dateOrdered = new Date();
+        // Create the address string entered by the user
+        let address = document.getElementById("address").value.trim() + " "
+            + document.getElementById("state").value.trim() + " "
+            + document.getElementById("country").value.trim() + " "
+            + document.getElementById("zip").value.trim();
 
-    // Iterate over each element in the cart
-    for (let i = 0; i < cart.length; i++) {
+        // Stores the current date AKA the date the order was placed
+        let dateOrdered = new Date();
 
-        // Create a new order for each item in the cart
-        let order = new Order(0, dateOrdered, cart[i].Price, address, user.username, cart[i].Merchandise_Id, "Y");
+        // Iterate over each element in the cart
+        for (let i = 0; i < cart.length; i++) {
 
-        // Call the AddOrder function in OrdersController
-        fetch('Orders/AddOrder', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(order),
-        })
-        .catch(error => console.error('Error: ', error));
+            // Create a new order for each item in the cart
+            let order = new Order(0, dateOrdered, cart[i].Price, address, user.username, cart[i].Merchandise_Id, "Y");
 
+            // Call the AddOrder function in OrdersController
+            fetch('Orders/AddOrder', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(order),
+            })
+                .catch(error => console.error('Error: ', error));
+
+        }
+
+        // Store the cart in the session storage; empty the cart
+        sessionStorage.setItem("cart", JSON.stringify([]));
+
+
+        // Navigate the user back to the homepage
+        sessionStorage.setItem("user", JSON.stringify(user));
+
+        window.location.href = "../homepage.html";
     }
-
-    // Store the cart in the session storage; empty the cart
-    sessionStorage.setItem("cart", JSON.stringify([]));
-
-
-    // Navigate the user back to the homepage
-    sessionStorage.setItem("user", JSON.stringify(user));
-    window.location.href = "../homepage.html";
 
 }
 //#endregion Homepage Screen Functions
